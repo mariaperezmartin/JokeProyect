@@ -1,24 +1,29 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
-import androidx.compose.foundation.Image
+
+import android.content.Context
+import android.content.Intent
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.alvarogm.apisremotas.R
+import com.alvarogm.apisremotas.PreferencesActivity
+import com.alvarogm.apisremotas.ShowJokesActivity
 import com.alvarogm.apisremotas.presentation.JokesScreenState
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
@@ -34,6 +39,7 @@ import com.gandiva.neumorphic.shape.*
 @Composable
 fun MainScreen(viewModel: JokesViewModel) {
     val screenState by viewModel.uiState.collectAsStateWithLifecycle()
+    val mContext = LocalContext.current
     Box(
         contentAlignment = Alignment.Center, modifier = Modifier
             .fillMaxWidth()
@@ -53,24 +59,30 @@ fun MainScreen(viewModel: JokesViewModel) {
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     //JokeCell((screenState as JokesScreenState.Success).joke)
-                    /* var amount: Int = 20
 
- // Input para ingresar el valor de la variable amount
-                     EditText(text = "$amount", onTextChanged = {
-                         val newAmount = it.toString().toIntOrNull() ?: 20
-                         amount = newAmount
-                     })
+                   /* var amount: Int = 20
 
- // Botón para cambiar la variable amount
-                     Button(onClick = { updateAmount() }) {
-                         Text(text = "Update Amount")
-                     }
- */
-                     (screenState as JokesScreenState.Success).jokes.forEach() {
-                         JokeCell(it)
-                     }
-                    CircleActionButton()
-                    //TwoColumnsWithButtons()
+// Input para ingresar el valor de la variable amount
+                    EditText(text = "$amount", onTextChanged = {
+                        val newAmount = it.toString().toIntOrNull() ?: 20
+                        amount = newAmount
+                    })
+
+// Botón para cambiar la variable amount
+                    Button(onClick = { updateAmount() }) {
+                        Text(text = "Update Amount")
+                    }
+*/
+                    (screenState as JokesScreenState.Success).jokes.forEach() {
+                        JokeCell(it)
+                    }
+                    Button(onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }) {
+                        Text(text = "Segundo Fragmento")
+                    }
+                    Button(onClick = { mContext.startActivity(Intent(mContext,PreferencesActivity::class.java))}) {
+                        Text(text = "Tercer Fragmento")
+                    }
+
                 }
             else -> {}
         }
