@@ -5,31 +5,36 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import com.alvarogm.apisremotas.ui.theme.AppColors.Purple200
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    onPrimary = Color.White,
+
+    secondary = AppColors.Purple500,
+
+    background = AppColors.Dark.Background,
+    onBackground = Color.White,
+    surface = AppColors.Dark.Background,
+    onSurface = Color.White,
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Purple200,
+    onPrimary = Color.Black,
 
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
+    secondary = AppColors.Purple500,
+
+    background = AppColors.Light.Background,
     onBackground = Color.Black,
+    surface = AppColors.Light.Background,
     onSurface = Color.Black,
-    */
 )
 
 @Composable
-fun ApisRemotasTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
+fun ApisRemotasTheme(isDarkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
+    val colors = if (isDarkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
@@ -37,7 +42,6 @@ fun ApisRemotasTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compo
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
         shapes = Shapes,
         content = content
     )
