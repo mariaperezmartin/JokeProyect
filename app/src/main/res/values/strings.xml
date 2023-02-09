@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ApisRemotas</string>
+    <string name="title_activity_show_jokes">ShowJokesActivity</string>
+    <string name="title_activity_preferences">PreferencesActivity</string>
 </resources>

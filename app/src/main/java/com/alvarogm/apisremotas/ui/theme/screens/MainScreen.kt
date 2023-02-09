@@ -1,17 +1,24 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.alvarogm.apisremotas.PreferencesActivity
+import com.alvarogm.apisremotas.ShowJokesActivity
 import com.alvarogm.apisremotas.presentation.JokesScreenState
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.components.ErrorBlock
@@ -21,6 +28,7 @@ import com.alvarogm.apisremotas.ui.theme.components.JokeCell
 @Composable
 fun MainScreen(viewModel: JokesViewModel) {
     val screenState by viewModel.uiState.collectAsStateWithLifecycle()
+    val mContext = LocalContext.current
     Box(
         contentAlignment = Alignment.Center, modifier = Modifier
             .fillMaxWidth()
@@ -52,6 +60,12 @@ fun MainScreen(viewModel: JokesViewModel) {
 */
                     (screenState as JokesScreenState.Success).jokes.forEach() {
                         JokeCell(it)
+                    }
+                    Button(onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }) {
+                        Text(text = "Segundo Fragmento")
+                    }
+                    Button(onClick = { mContext.startActivity(Intent(mContext,PreferencesActivity::class.java))}) {
+                        Text(text = "Tercer Fragmento")
                     }
                 }
             else -> {}
