@@ -1,5 +1,7 @@
 package com.alvarogm.apisremotas.data
 
 class JokeRemoteDatasource(private val apiService: ApiService) {
- suspend fun getJoke () = apiService.getJoke()
+ suspend fun getJoke (category: String,amount: Int) = apiService.getJoke(category,amount)
+
+
 }
