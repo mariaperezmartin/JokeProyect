@@ -20,10 +20,10 @@ class JokesViewModel(private val episodesRemoteDatasource: JokeRemoteDatasource)
         )
     }
 
-    fun getJokes() {
+    fun getJokes(category: String,jokeAmount: Int) {
         viewModelScope.launch(handler) {
             /*_uiState.value = JokesScreenState.Loading*/
-            val jokes = episodesRemoteDatasource.getJoke()
+            val jokes = episodesRemoteDatasource.getJoke(category,jokeAmount)
             _uiState.value = JokesScreenState.Success(jokes.jokes)
         }
     }

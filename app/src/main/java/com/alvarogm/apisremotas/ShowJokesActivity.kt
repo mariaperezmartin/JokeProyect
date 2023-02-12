@@ -11,8 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.alvarogm.apisremotas.ui.theme.ApisRemotasTheme
+import com.alvarogm.apisremotas.ui.theme.screens.SettingsScreen
 
-class ShowJokesActivity : ComponentActivity() {
+ class ShowJokesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,7 +23,7 @@ class ShowJokesActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    SettingsScreen()
                 }
             }
         }

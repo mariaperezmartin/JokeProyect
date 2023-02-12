@@ -23,6 +23,7 @@ import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.*
 
+/*
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -68,7 +69,6 @@ fun PressedButton() {
             Text(text = "Button", style = AppTextStyle.button())
         }
     }
-
 }
 
 //Botón que controla apariencia
@@ -121,5 +121,11 @@ fun ImageButton(
             contentScale = ContentScale.Inside,
             colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
         )
+    }
+}*/
+@Composable
+fun SettingsScreen(){
+    Column() {
+        Text(text = "Settings", style = MaterialTheme.typography.h1)
     }
 }
