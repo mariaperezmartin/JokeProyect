@@ -60,7 +60,7 @@ fun Pantalla2(
                     ) {
                         Text(text = "$amount JOKES - ${category.uppercase()}")
                         (screenState as JokesScreenState.Success).jokes.forEach() {
-                            JokeCell(it)
+                            JokeCell(it,viewModel)
                         }
                     }
                 else -> {}
@@ -98,7 +98,7 @@ fun Pantalla2(
      */
                         Text(text = "$amount JOKES - ${category.uppercase()}")
                         (screenState as JokesScreenState.Success).jokes.forEach() {
-                            JokeCell(it)
+                            JokeCell(it,viewModel)
                         }
                     }
                 else -> {}
