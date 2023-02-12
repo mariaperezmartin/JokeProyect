@@ -77,7 +77,7 @@ fun MainScreen(viewModel: JokesViewModel) {
                     }
 */
                     (screenState as JokesScreenState.Success).jokes.forEach() {
-                        JokeCell(it)
+                        JokeCell(it,viewModel)
                     }
                     Button(onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }) {
                         Text(text = "Segundo Fragmento")

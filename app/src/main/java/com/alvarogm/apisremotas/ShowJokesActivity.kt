@@ -10,34 +10,28 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.alvarogm.apisremotas.data.JokeRemoteDatasource
+import com.alvarogm.apisremotas.data.RetrofitBuilder
+import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.ApisRemotasTheme
+import com.alvarogm.apisremotas.ui.theme.screens.MainScreen
+import com.alvarogm.apisremotas.ui.theme.screens.ShowJokes
+import com.faborjas.apicompose.data.local.JokesDatasource
 
-class ShowJokesActivity : ComponentActivity() {
+ class ShowJokesActivity : ComponentActivity() {
+     private val apiDatasource = JokeRemoteDatasource(RetrofitBuilder. apiService)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val dbDatasource = JokesDatasource (applicationContext)
+        val viewModel = JokesViewModel(apiDatasource, dbDatasource)
         setContent {
             ApisRemotasTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
+                Surface(modifier = Modifier.fillMaxSize(), color =
+                MaterialTheme. colors.background) {
+                    ShowJokes(viewModel = viewModel)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ApisRemotasTheme {
-        Greeting("Android")
     }
 }
