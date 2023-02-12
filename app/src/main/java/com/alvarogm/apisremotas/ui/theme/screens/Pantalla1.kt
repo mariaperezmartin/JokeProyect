@@ -1,5 +1,6 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -11,10 +12,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.alvarogm.apisremotas.R
 import com.alvarogm.apisremotas.ui.theme.AppColors
+import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.NeuAttrs
 import com.gandiva.neumorphic.neu
@@ -294,16 +300,16 @@ Column(modifier = Modifier.fillMaxSize(),
                 //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                 onClick = { navegarPantalla2("MisBromas",textValue.toInt()) }
             ) {
-                /* Image(
+       /*          Image(
                      painter = painterResource(id = R.drawable.ic_baseline_android_24),
                      contentDescription = "Flat image 1",
                      contentScale = ContentScale.Inside,
                      colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
                  )*/
                 //Icon es el que vale
-/*                Icon(
+          /*    Icon(
                     modifier = Modifier.size(32.dp),
-                    imageVector = Destinations.Pantalla2.icon,
+                    imageVector = R.drawable.,
                     contentDescription = Destinations.Pantalla2.title
                     //tint = if(selected) Color.Blue else Color.Gray
                 )*/

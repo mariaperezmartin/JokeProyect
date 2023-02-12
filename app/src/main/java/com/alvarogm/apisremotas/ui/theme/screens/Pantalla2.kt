@@ -29,7 +29,14 @@ fun Pantalla2(
     darkMode: MutableState<Boolean>,
     viewModel: JokesViewModel
 ) {
-    println("ASKJDGHAKLSGDAKSGDKAHJSGDJKAHSGDJKAHSGDJKAHSGDAKJSHGDAKSJHDGAKJSHDGAKJSHDGAKSJHDGAKSJHDGAKJSHDGASJKHDG"+amount.toString())
+
+/*    if (category == "MisBromas"){
+
+    }else{
+
+    }*/
+
+    println("ASKJDGHAKLSGDAKSGDKAHJSGDJKAHSGDJKAHSGDJKAHSGDAKJSHGDAKSJHDGAKJSHDGAKJSHDGAKSJHDGAKSJHDGAKJSHDGASJKHDG" + amount.toString())
     val screenState by viewModel.uiState.collectAsStateWithLifecycle()
     val mContext = LocalContext.current
     Box(
@@ -38,43 +45,67 @@ fun Pantalla2(
             .padding(16.dp)
             .height(550.dp)
     ) {
-        when (screenState) {
-            JokesScreenState.Loading -> CircularProgressIndicator(modifier = Modifier.size(48.dp))
-            is JokesScreenState.Error ->
-                ErrorBlock(
-                    message = (screenState as JokesScreenState.Error).message
-                ) { viewModel.getJokes(category,amount) }
-            is JokesScreenState.Success ->
-                Column(
-                    modifier = Modifier.verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                    , horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    //JokeCell((screenState as JokesScreenState.Success).joke)
-
-                    /* var amount: Int = 20
-
- // Input para ingresar el valor de la variable amount
-                     EditText(text = "$amount", onTextChanged = {
-                         val newAmount = it.toString().toIntOrNull() ?: 20
-                         amount = newAmount
-                     })
-
- // Botón para cambiar la variable amount
-                     Button(onClick = { updateAmount() }) {
-                         Text(text = "Update Amount")
-                     }
- */
-                    Text(text = "$amount JOKES - ${category.uppercase()}")
-                    (screenState as JokesScreenState.Success).jokes.forEach() {
-                        JokeCell(it)
+        if (category == "MisBromas") {
+            when (screenState) {
+                JokesScreenState.Loading -> CircularProgressIndicator(modifier = Modifier.size(48.dp))
+                is JokesScreenState.Error ->
+                    ErrorBlock(
+                        message = (screenState as JokesScreenState.Error).message
+                    ) { viewModel.getJokes(category, amount) }
+                is JokesScreenState.Success ->
+                    Column(
+                        modifier = Modifier.verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "$amount JOKES - ${category.uppercase()}")
+                        (screenState as JokesScreenState.Success).jokes.forEach() {
+                            JokeCell(it)
+                        }
                     }
-                }
-            else -> {}
+                else -> {}
+            }
+            LaunchedEffect(viewModel) {
+                viewModel.getJokes(category, amount)
+            }
+        } else {
+            when (screenState) {
+                JokesScreenState.Loading -> CircularProgressIndicator(modifier = Modifier.size(48.dp))
+                is JokesScreenState.Error ->
+                    ErrorBlock(
+                        message = (screenState as JokesScreenState.Error).message
+                    ) { viewModel.getJokes(category, amount) }
+                is JokesScreenState.Success ->
+                    Column(
+                        modifier = Modifier.verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        //JokeCell((screenState as JokesScreenState.Success).joke)
+
+                        /* var amount: Int = 20
+
+     // Input para ingresar el valor de la variable amount
+                         EditText(text = "$amount", onTextChanged = {
+                             val newAmount = it.toString().toIntOrNull() ?: 20
+                             amount = newAmount
+                         })
+
+     // Botón para cambiar la variable amount
+                         Button(onClick = { updateAmount() }) {
+                             Text(text = "Update Amount")
+                         }
+     */
+                        Text(text = "$amount JOKES - ${category.uppercase()}")
+                        (screenState as JokesScreenState.Success).jokes.forEach() {
+                            JokeCell(it)
+                        }
+                    }
+                else -> {}
+            }
+            LaunchedEffect(viewModel) {
+                viewModel.getJokes(category, amount)
+            }
         }
     }
-    LaunchedEffect(viewModel) {
-        viewModel.getJokes(category,amount)
-    }
 }
-
