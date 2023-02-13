@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.alvarogm.apisremotas.R
+import com.alvarogm.apisremotas.data.Joke
 import com.alvarogm.apisremotas.data.JokeClass
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
@@ -32,7 +33,7 @@ import com.gandiva.neumorphic.shape.RoundedCorner
 
 
 @Composable
-fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
+fun JokeCellOne(joke: Joke, viewModel: JokesViewModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -118,14 +119,12 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
                         )
                     }
                 }
-
-
-
             }
         }
 
     }
 }
+/*
 
 @Composable
 fun ImageButton(
@@ -155,4 +154,4 @@ fun ImageButton(
             colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
         )
     }
-}
+}*/

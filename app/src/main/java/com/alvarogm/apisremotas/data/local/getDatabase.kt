@@ -1,4 +1,4 @@
-package com.faborjas.apicompose.data.local
+package com.alvarogm.apisremotas.data.local
 
 import android.content.Context
 import androidx.room.Room

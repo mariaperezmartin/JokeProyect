@@ -12,7 +12,7 @@ import com.alvarogm.apisremotas.data.JokeRemoteDatasource
 import com.alvarogm.apisremotas.data.RetrofitBuilder
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.ApisRemotasTheme
-import com.faborjas.apicompose.data.local.JokesDatasource
+import com.alvarogm.apisremotas.data.local.JokesDatasource
 
 class MainActivity : ComponentActivity() {
     private val apiDatasource = JokeRemoteDatasource(RetrofitBuilder.apiService)

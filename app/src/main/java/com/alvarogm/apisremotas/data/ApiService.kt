@@ -15,6 +15,8 @@ interface ApiService {
  @GET("joke/{category}")
  suspend fun getJoke(@Path("category") category: String, @Query("amount") amount: Int): JokeClass
 
+ @GET("joke/{category}")
+ suspend fun getOneJoke(@Path("category") category: String, @Query("amount") amount: Int): Joke
 
 /* @Query("SELECT * FROM Jokes ")
  fun getAll(): Flow<List<JokeClass>>*/

@@ -1,4 +1,4 @@
-package com.faborjas.apicompose.data.local
+package com.alvarogm.apisremotas.data.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

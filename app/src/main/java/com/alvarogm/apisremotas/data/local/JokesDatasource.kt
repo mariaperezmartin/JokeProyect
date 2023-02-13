@@ -1,7 +1,8 @@
-package com.faborjas.apicompose.data.local
+package com.alvarogm.apisremotas.data.local
 
 import android.content.Context
-import com.alvarogm.apisremotas.data.JokeClass
+import com.alvarogm.apisremotas.data.local.Jokes
+import com.alvarogm.apisremotas.data.local.getDatabase
 import kotlinx.coroutines.flow.Flow
 
 class JokesDatasource constructor (private val applicationContext : Context) {

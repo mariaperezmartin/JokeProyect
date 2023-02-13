@@ -1,24 +1,17 @@
 package com.alvarogm.apisremotas.ui.theme.components
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.alvarogm.apisremotas.R
-import com.alvarogm.apisremotas.data.JokeClass
+import com.alvarogm.apisremotas.data.local.Jokes
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
@@ -32,7 +25,7 @@ import com.gandiva.neumorphic.shape.RoundedCorner
 
 
 @Composable
-fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
+fun JokeCellLocal(joke: Jokes, viewModel: JokesViewModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,27 +45,7 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
                     .weight(3f)
                     .padding(start = 17.dp, top = 0.dp, end = 0.dp, bottom = 0.dp)
             ) {
-
-                if (joke.type == "twopart") {
-                    Text(
-                        text = joke.lang + " - " + joke.category,
-                        style = TextStyle(color = Color(0xFF87CEFA))
-                    )
-                    Text(text = joke.setup)//pregunta
-                    Text(text = joke.delivery, style = TextStyle(color = Color.Red))//respuesta
-
-                } else {
-                    Text(
-                        text = joke.lang + " - " + joke.category,
-                        style = TextStyle(color = Color(0xFF87CEFA))
-                    )
-                    Text(text = joke.joke)
-                }
-
-                /*  Text(text = joke.category)
-                    Text(text = joke.lang, style = TextStyle(color = Color.LightGray))*/
-                //Text(text = joke.toString(), fontWeight = FontWeight.Bold)
-                //Text(text = joke.setup.toString(), fontWeight = FontWeight.Bold)
+                Text(text = joke.joke)
             }
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
 /*                ImageButton(
@@ -105,28 +78,21 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
 
                     IconButton(modifier = Modifier.padding(defaultWidgetPadding),
                         onClick = {
-                            if (joke.type == "twopart") {
-                                viewModel.saveJoke(joke.setup+" "+joke.delivery)
-                            }else{
-                                viewModel.saveJoke(joke.joke)
-                            }
+                            viewModel.deleteJoke(joke)
                         }
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
+                            painter = painterResource(id = R.drawable.baseline_delete_24),
                             contentDescription = Destinations.Pantalla2.title,
                         )
                     }
                 }
-
-
-
             }
         }
-
     }
 }
 
+/*
 @Composable
 fun ImageButton(
     modifier: Modifier,
@@ -155,4 +121,4 @@ fun ImageButton(
             colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
         )
     }
-}
+}*/

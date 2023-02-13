@@ -1,10 +1,10 @@
-package com.faborjas.apicompose.data.local
+package com.alvarogm.apisremotas.data.local
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.alvarogm.apisremotas.data.JokeClass
+import com.alvarogm.apisremotas.data.local.Jokes
 import kotlinx.coroutines.flow.Flow
 
 @Dao

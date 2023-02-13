@@ -70,6 +70,7 @@ dependencies {
     implementation 'androidx.compose.material:material:1.2.0'
 
     implementation 'io.github.sridhar-sp:neumorphic:0.0.6'
+    implementation 'androidx.room:room-common:2.5.0'
     def room_version = "2.4.3"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
