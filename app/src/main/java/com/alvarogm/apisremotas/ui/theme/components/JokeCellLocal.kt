@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,10 +23,13 @@ import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
 import com.gandiva.neumorphic.shape.RoundedCorner
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun JokeCellLocal(joke: Jokes, viewModel: JokesViewModel) {
+    val scaffoldState = rememberScaffoldState()
+    val snackbarCoroutineScope = rememberCoroutineScope()
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,6 +83,9 @@ fun JokeCellLocal(joke: Jokes, viewModel: JokesViewModel) {
                     IconButton(modifier = Modifier.padding(defaultWidgetPadding),
                         onClick = {
                             viewModel.deleteJoke(joke)
+                            snackbarCoroutineScope.launch{
+                                scaffoldState.snackbarHostState.showSnackbar("Snacks in Compose")
+                            }
                         }
                     ) {
                         Icon(

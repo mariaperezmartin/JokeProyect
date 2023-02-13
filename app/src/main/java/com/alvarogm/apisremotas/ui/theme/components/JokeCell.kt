@@ -7,8 +7,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,10 +33,17 @@ import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
 import com.gandiva.neumorphic.shape.RoundedCorner
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
+    //val scaffoldState = rememberScaffoldState()
+    //val snackbarCoroutineScope = rememberCoroutineScope()
+    //val scope = rememberCoroutineScope()
+    //val snackbarHostState = remember { SnackbarHostState() }
+    //val showDialog = remember{mutableStateOf(false)}
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,13 +121,23 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
                             }else{
                                 viewModel.saveJoke(joke.joke)
                             }
+                            /*snackbarCoroutineScope.launch{
+                                scaffoldState.snackbarHostState.showSnackbar("Snacks in Compose")
+                            }*/
+
+                            //showDialog.value=true
+                            /*scope.launch {
+                                snackbarHostState.showSnackbar("Hello there")
+                            }*/
                         }
+
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
                             contentDescription = Destinations.Pantalla2.title,
                         )
                     }
+                    //SnackbarHost(hostState = snackbarHostState)
                 }
 
 
@@ -125,6 +146,10 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
         }
 
     }
+/*
+    if (showDialog.value){
+        SnackbarScreen()
+    }*/
 }
 
 @Composable
@@ -154,5 +179,48 @@ fun ImageButton(
             contentScale = ContentScale.Inside,
             colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
         )
+    }
+}
+//SnackBar
+/*
+@Composable
+fun SnackbarScreen() {
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+        FloatingActionButton(
+            onClick = {
+                //Important part here
+                scope.launch {
+                    snackbarHostState.showSnackbar("Hello there")
+                }
+                //
+            },
+            content = { Icon(imageVector = Icons.Default.Add, contentDescription = "") }
+        )
+
+    SnackbarHost(hostState = snackbarHostState)
+}*/
+
+@Composable
+fun DisplaySnackbar() {
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+
+    Scaffold(scaffoldState = scaffoldState) { padding ->
+        Column(modifier = Modifier.padding(4.dp)) {
+            Button(onClick = {
+                coroutineScope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Messahe snackbar",
+                        actionLabel = "undo",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }) {
+                Text(text = "Display Snack Bar")
+            }
+        }
+
     }
 }
