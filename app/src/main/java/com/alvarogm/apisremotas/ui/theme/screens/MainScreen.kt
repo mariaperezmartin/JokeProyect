@@ -43,11 +43,11 @@ fun MainScreen(
         NavigationHost(navController, darkMode, viewModel,scaffoldState ,coroutineScope)
     }
 
-    fun miFuncion(snackbarHostState: SnackbarHostState) {
+ /*   fun miFuncion(snackbarHostState: SnackbarHostState) {
         scope.launch {
             snackbarHostState.showSnackbar("Mi mensaje de Snackbar")
         }
-    }
+    }*/
    /* Dialog(showDialog = openDialog.value, dismissDialog = { openDialog.value = false })*/
 }
 
