@@ -6,12 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,12 +33,12 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
-    val scaffoldState = rememberScaffoldState()
-    val snackbarCoroutineScope = rememberCoroutineScope()
-    //val scope = rememberCoroutineScope()
-    //val snackbarHostState = remember { SnackbarHostState() }
-    //val showDialog = remember{mutableStateOf(false)}
+fun JokeCell(
+    joke: JokeClass,
+    viewModel: JokesViewModel,
+    scaffoldState: ScaffoldState,
+    coroutineScope: CoroutineScope
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,6 +52,7 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
         elevation = 0.dp,
         shape = RoundedCornerShape(24.dp),
     ) {
+
         Row(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -86,20 +82,6 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
                 //Text(text = joke.setup.toString(), fontWeight = FontWeight.Bold)
             }
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-/*                ImageButton(
-                    modifier = Modifier.padding(defaultWidgetPadding),
-                    drawableResId = R.drawable.baseline_home_24,
-                    contentDescription = "Like",
-                ) {
-                    viewModel.saveJoke(joke.joke)
-                }
-                Icon(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(id = R.drawable.baseline_home_24),
-                    contentDescription = Destinations.Pantalla2.title,
-                    //tint = if(selected) Color.Blue else Color.Gray
-
-                )*/
                 Card(
                     modifier = Modifier
                         .size(48.dp)
@@ -113,49 +95,36 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
                     elevation = 0.dp,
                     shape = RoundedCornerShape(24.dp),
                 ) {
-                    Scaffold(scaffoldState = scaffoldState) { padding ->
-                        IconButton(modifier = Modifier.padding(defaultWidgetPadding),
-                            onClick = {
-                                if (joke.type == "twopart") {
-                                    viewModel.saveJoke(joke.setup + " " + joke.delivery)
-                                } else {
-                                    viewModel.saveJoke(joke.joke)
-                                }
-                                /*snackbarCoroutineScope.launch{
-                                    scaffoldState.snackbarHostState.showSnackbar("Snacks in Compose")
-                                }*/
 
-                                //showDialog.value=true
-                                /*scope.launch {
-                                    snackbarHostState.showSnackbar("Hello there")
-                                }*/
-                                snackbarCoroutineScope.launch {
-                                    scaffoldState.snackbarHostState.showSnackbar(
-                                        message = "Messahe snackbar",
-                                        actionLabel = "undo",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }
+                    IconButton(
+                        modifier = Modifier.padding(defaultWidgetPadding),
+                        onClick = {
+                            if (joke.type == "twopart") {
+                                viewModel.saveJoke(joke.setup + " " + joke.delivery)
+                            } else {
+                                viewModel.saveJoke(joke.joke)
                             }
 
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
-                                contentDescription = Destinations.Pantalla2.title,
-                            )
+                            coroutineScope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar(
+                                    message = "Broma guardada correctamente",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
                         }
-                        //SnackbarHost(hostState = snackbarHostState)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
+                            contentDescription = Destinations.Pantalla2.title,
+                        )
                     }
+
                 }
 
             }
         }
 
     }
-/*
-    if (showDialog.value){
-        SnackbarScreen()
-    }*/
 }
 
 @Composable

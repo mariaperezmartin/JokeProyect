@@ -85,7 +85,7 @@ Column(modifier = Modifier
                 label = { Text("Cantidad de Chistes") },
                 modifier = Modifier
                     .width(270.dp)
-                    .height(50.dp)
+                    .height(55.dp)
                     .neu(defaultPressedNetAttrs()),
                 shape = RoundedCornerShape(20.dp),
                 singleLine = false,
@@ -181,7 +181,11 @@ Column(modifier = Modifier.fillMaxSize(),
                 shape = RoundedCornerShape(10.dp),
                 //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                 //onClick = { navController.navigate(Destinations.Pantalla2.route) }
+
                 onClick = { navegarPantalla2("Programming",textValue.toInt()) }
+
+
+
             ) {
                 /* Image(
                      painter = painterResource(id = R.drawable.ic_baseline_android_24),

@@ -1,5 +1,6 @@
 package com.alvarogm.apisremotas.ui.theme.navigation
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
@@ -11,12 +12,14 @@ import com.alvarogm.apisremotas.ui.theme.screens.SettingsScreen
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations.*
 import com.alvarogm.apisremotas.ui.theme.screens.Pantalla1
 import com.alvarogm.apisremotas.ui.theme.screens.Pantalla2
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun NavigationHost(
     navController: NavHostController,
     darkMode: MutableState<Boolean>,
-    viewModel: JokesViewModel
+    viewModel: JokesViewModel, scaffoldState: ScaffoldState,
+    coroutineScope: CoroutineScope,
 ) {
     NavHost(navController = navController, startDestination = Pantalla1.route) {
         composable(Pantalla1.route) {
@@ -37,7 +40,7 @@ fun NavigationHost(
             var amount = navBackStackEntry.arguments?.getInt("amount")
             requireNotNull(category)
             requireNotNull(amount)
-            Pantalla2(category,amount, darkMode, viewModel)
+            Pantalla2(category,amount, darkMode, viewModel,scaffoldState,coroutineScope)
             //ShowJokes()
         }
 
