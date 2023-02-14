@@ -39,8 +39,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
-    //val scaffoldState = rememberScaffoldState()
-    //val snackbarCoroutineScope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
+    val snackbarCoroutineScope = rememberCoroutineScope()
     //val scope = rememberCoroutineScope()
     //val snackbarHostState = remember { SnackbarHostState() }
     //val showDialog = remember{mutableStateOf(false)}
@@ -113,34 +113,40 @@ fun JokeCell(joke: JokeClass, viewModel: JokesViewModel) {
                     elevation = 0.dp,
                     shape = RoundedCornerShape(24.dp),
                 ) {
+                    Scaffold(scaffoldState = scaffoldState) { padding ->
+                        IconButton(modifier = Modifier.padding(defaultWidgetPadding),
+                            onClick = {
+                                if (joke.type == "twopart") {
+                                    viewModel.saveJoke(joke.setup + " " + joke.delivery)
+                                } else {
+                                    viewModel.saveJoke(joke.joke)
+                                }
+                                /*snackbarCoroutineScope.launch{
+                                    scaffoldState.snackbarHostState.showSnackbar("Snacks in Compose")
+                                }*/
 
-                    IconButton(modifier = Modifier.padding(defaultWidgetPadding),
-                        onClick = {
-                            if (joke.type == "twopart") {
-                                viewModel.saveJoke(joke.setup+" "+joke.delivery)
-                            }else{
-                                viewModel.saveJoke(joke.joke)
+                                //showDialog.value=true
+                                /*scope.launch {
+                                    snackbarHostState.showSnackbar("Hello there")
+                                }*/
+                                snackbarCoroutineScope.launch {
+                                    scaffoldState.snackbarHostState.showSnackbar(
+                                        message = "Messahe snackbar",
+                                        actionLabel = "undo",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
                             }
-                            /*snackbarCoroutineScope.launch{
-                                scaffoldState.snackbarHostState.showSnackbar("Snacks in Compose")
-                            }*/
 
-                            //showDialog.value=true
-                            /*scope.launch {
-                                snackbarHostState.showSnackbar("Hello there")
-                            }*/
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
+                                contentDescription = Destinations.Pantalla2.title,
+                            )
                         }
-
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
-                            contentDescription = Destinations.Pantalla2.title,
-                        )
+                        //SnackbarHost(hostState = snackbarHostState)
                     }
-                    //SnackbarHost(hostState = snackbarHostState)
                 }
-
-
 
             }
         }
