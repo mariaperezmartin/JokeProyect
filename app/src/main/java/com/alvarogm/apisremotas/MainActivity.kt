@@ -21,6 +21,9 @@ class MainActivity : ComponentActivity() {
         val dbDatasource = JokesDatasource(applicationContext)
         val viewModel = JokesViewModel(apiDatasource, dbDatasource)
         setContent {
+            var isDarkTheme by remember {
+                mutableStateOf(true)
+            }
             ApisRemotasTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
