@@ -1,6 +1,7 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.alvarogm.apisremotas.ui.theme.AppColors
@@ -30,8 +33,8 @@ fun BottomNavigationBar(
     val currentRoute = currentRoute(navController)
 
     BottomNavigation(
-        Modifier.height(80.dp).shadow(elevation = 10.dp, clip = true).background(Color.Black),
-        backgroundColor = Background,
+        Modifier.height(80.dp),
+        backgroundColor =  MaterialTheme.colors.background,
         contentColor = Color.Black,
 
     ) {
@@ -59,13 +62,13 @@ fun BottomNavigationBar(
                          colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
                      )*/
                     Icon(
-                        modifier = Modifier.size(32.dp),
+                        modifier = Modifier.size(1.dp),
                         imageVector = screen.icon,
-                        contentDescription = screen.title
-                        //tint = if(selected) Color.Blue else Color.Gray
+                        contentDescription = screen.title,
                     )
                 } },
-                label = { Text(screen.title) },
+                label = { Text(screen.title,
+                    color = if (isSystemInDarkTheme()) Color.White else Color.Black, fontSize = 14.sp,fontWeight = FontWeight.Bold) },
                 selected = currentRoute == screen.route,
                 onClick = {
                       navController.navigate(screen.route) {
@@ -76,7 +79,7 @@ fun BottomNavigationBar(
                           launchSingleTop = true
                       }
                 },
-                alwaysShowLabel = false
+                alwaysShowLabel = false,
             )
         }
     }

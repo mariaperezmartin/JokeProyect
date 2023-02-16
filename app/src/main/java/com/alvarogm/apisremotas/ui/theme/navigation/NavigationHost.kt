@@ -1,20 +1,20 @@
 package com.alvarogm.apisremotas.ui.theme.navigation
 
+import android.provider.Settings.Global.getString
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.alvarogm.apisremotas.R
+import com.alvarogm.apisremotas.TitleWithThemeToggle
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations.*
 import com.alvarogm.apisremotas.ui.theme.screens.*
@@ -23,12 +23,14 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun NavigationHost(
     navController: NavHostController,
-    darkMode: MutableState<Boolean>,
+    darkMode: Boolean,
     viewModel: JokesViewModel,
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope
 
 ) {
+    var isDarkTheme by remember { mutableStateOf(darkMode) }
+    isDarkTheme = darkMode
     NavHost(navController = navController, startDestination = Pantalla1.route) {
 
         composable(Pantalla1.route) {
@@ -62,10 +64,8 @@ fun NavigationHost(
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ){
-                var isDarkTheme =true;
+                //PressedButton(darkMode) { }
                 TitleApp()
-                PressedButton(isDarkTheme) {
-                }
                 PressedSppiner()
                 PressedButtonError()
                 PressedButtonVersion()

@@ -1,16 +1,13 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
-import android.app.AlertDialog
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -23,7 +20,9 @@ import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import kotlinx.coroutines.launch
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.style.TextAlign
+import com.alvarogm.apisremotas.ui.theme.AppTextStyle
 
 
 /*
@@ -127,7 +126,7 @@ fun ImageButton(
     }
 }*/
 @Composable
-fun SettingsScreen(){
+fun SettingsScreen() {
     Column() {
         Text(text = "Settings", style = MaterialTheme.typography.h1)
     }
@@ -137,11 +136,11 @@ fun SettingsScreen(){
 //Título de actividad
 @Preview(showBackground = true, widthDp = 200, heightDp = 100)
 @Composable
-fun TitleApp(){
+fun TitleApp() {
     Row(
-        modifier = Modifier.padding( vertical = 5.dp),
+        modifier = Modifier.padding(vertical = 5.dp),
         horizontalArrangement = Arrangement.Center
-    ){
+    ) {
         Text(
             text = "JOKES",
             fontSize = 40.sp,
@@ -150,8 +149,8 @@ fun TitleApp(){
 }
 
 //Botón que controla apariencia
-@Composable
-fun PressedButton(isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
+/*@Composable
+fun PressedButton(darkMode: Boolean, onThemeToggle: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -164,16 +163,37 @@ fun PressedButton(isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
         )
         ImageButton(
             modifier = Modifier.padding(defaultWidgetPadding),
-            drawableResId = if (isDarkTheme) R.drawable.ic_baseline_light_mode
+            drawableResId = if (darkMode) R.drawable.ic_baseline_light_mode
             else R.drawable.ic_baseline_dark_mode_24,
             contentDescription = "Toggle theme",
             onClick = onThemeToggle
         )
     }
 
-}
+}*/
+/*@Composable
+fun TitleWithThemeToggle(title: String, isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = defaultWidgetPadding),
+            text = title,
+            style = AppTextStyle.body1(), maxLines = 1
+        )
+        ImageButton(
+            modifier = Modifier.padding(defaultWidgetPadding),
+            drawableResId = if (isDarkTheme) R.drawable.ic_baseline_light_mode
+            else R.drawable.ic_baseline_dark_mode_24,
+            contentDescription = "Toggle theme",
+            onClick = onThemeToggle
+        )
+    }
+}*/
 
-@Composable
+/*@Composable
 fun ImageButton(
     modifier: Modifier,
     @DrawableRes drawableResId: Int,
@@ -203,8 +223,17 @@ fun ImageButton(
             colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
         )
     }
-}
+}*/
+/*@Composable
+fun Button(){
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .height(120.dp)) {
+        Button(onClick = {TitleWithThemeToggle}){
 
+        }
+    }
+}*/
 
 //Spinner de selección lenguaje
 @Composable
@@ -282,41 +311,62 @@ fun PressedButtonError() {
             fontSize = 25.sp,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
         )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
+        var dialogoVisible by rememberSaveable { mutableStateOf(false) }
+        Button(
+            onClick = { dialogoVisible = true }, modifier = Modifier
+                .defaultMinSize(minHeight = 20.dp)
+                .fillMaxWidth()
+
+                .neu(defaultFlatNeuAttrs()),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.surface
+            ), shape = RoundedCornerShape(9.dp)
         ) {
-            Card(
-                modifier = Modifier
-                    .padding(defaultWidgetPadding)
-                    .height(50.dp)
-                    .fillMaxSize()
-                    .neu(
-                        lightShadowColor = AppColors.lightShadow(),
-                        darkShadowColor = AppColors.darkShadow(),
-                        shadowElevation = defaultElevation,
-                        lightSource = LightSource.LEFT_TOP,
-                        //shape = Flat(Oval),
-
-
-                    )
-                    .clickable {},
-                elevation = 0.dp,
-                shape = RoundedCornerShape(24.dp),
-            ){
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    //horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Image(painter = painterResource(R.drawable.ic_launcher_foreground), contentDescription = "Android")
-                    
-                    var dialogoVisible by rememberSaveable { mutableStateOf(false) }
-                    Button(onClick = { dialogoVisible = true }) {
-                        Text("Problems")
-                    }
-                    DialogoAlerta(dialogoVisible,{dialogoVisible=false})
-                }
-            }
+            Text(
+                text = "Button", style = AppTextStyle.button()
+            )
         }
+        DialogoAlerta(dialogoVisible, { dialogoVisible = false })
+        /* Text(
+             text = "Error",
+             fontSize = 25.sp,
+             modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
+         )
+         Row(
+             modifier = Modifier.fillMaxWidth(),
+         ) {
+             Card(
+                 modifier = Modifier
+                     .padding(defaultWidgetPadding)
+                     .height(50.dp)
+                     .fillMaxSize()
+                     .neu(
+                         lightShadowColor = AppColors.lightShadow(),
+                         darkShadowColor = AppColors.darkShadow(),
+                         shadowElevation = defaultElevation,
+                         lightSource = LightSource.LEFT_TOP,
+                         //shape = Flat(Oval),
+
+
+                     )
+                     .clickable {},
+                 elevation = 0.dp,
+                 shape = RoundedCornerShape(24.dp),
+             ){
+                 Row(
+                     modifier = Modifier.fillMaxWidth(),
+                     //horizontalArrangement = Arrangement.SpaceBetween,
+                 ) {
+                     Image(painter = painterResource(R.drawable.ic_launcher_foreground), contentDescription = "Android")
+
+                     var dialogoVisible by rememberSaveable { mutableStateOf(false) }
+                     Button(onClick = { dialogoVisible = true }) {
+                         Text("Problems")
+                     }
+                     DialogoAlerta(dialogoVisible,{dialogoVisible=false})
+                 }
+             }
+         }*/
     }
 }
 
@@ -326,14 +376,36 @@ fun PressedButtonError() {
 fun PressedButtonVersion() {
     Column(
         modifier = Modifier
-            .height(120.dp),
+            .height(150.dp),
     ) {
         Text(
             text = "Version",
             fontSize = 25.sp,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
         )
-        Row(
+        var dialogoVisibleVersion by rememberSaveable { mutableStateOf(false) }
+        Button(
+            onClick = { dialogoVisibleVersion = true }, modifier = Modifier
+                .defaultMinSize(minHeight = 20.dp)
+                .fillMaxWidth()
+
+                .neu(defaultFlatNeuAttrs()),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.surface
+            ), shape = RoundedCornerShape(9.dp)
+        ) {
+            Box(
+                modifier = Modifier.padding(0.dp),
+                Alignment.CenterStart
+            ) {
+                Text(
+                    "1.0",
+                    //Modifier.padding(16.dp),
+                )
+            }
+        }
+        DialogoAlertaVersion(dialogoVisibleVersion, { dialogoVisibleVersion = false })
+   /*     Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Card(
@@ -351,62 +423,101 @@ fun PressedButtonVersion() {
                 //.clickable(true, onClick = {}),
                 elevation = 0.dp,
                 shape = RoundedCornerShape(24.dp),
-            ){
-                Text(text = "V.1" ,
-                    modifier = Modifier.padding(12.dp))
+            ) {
+                Text(
+                    text = "V.1",
+                    modifier = Modifier.padding(12.dp)
+                )
             }
-        }
+        }*/
     }
 }
 
 //Ventana emergente /diálogo
 
 @Composable
-fun DialogoAlerta (
+fun DialogoAlerta(
     dialogoVisible: Boolean,
-    onDismiss: ()-> Unit,
+    onDismiss: () -> Unit,
     //onConfirm: ()-> Unit
-)
-{
-        if (dialogoVisible) {
-            AlertDialog(
-                onDismissRequest = {
+) {
+    if (dialogoVisible) {
+        AlertDialog(
+            onDismissRequest = {
+                onDismiss()
+            },
+            title = {
+                Text(text = "Problems")
+            },
+            text = {
+                Text("Write the problem and we will try to solve it")
+            },
+            shape = RoundedCornerShape(24.dp),
+            confirmButton = {
+                Button(
+                    onClick = {
                         onDismiss()
-                },
-                title = {
-                    Text(text = "Problems")
-                },
-                text = {
-                    Text("Write the problem and we will try to solve it")
-                },
-                shape = RoundedCornerShape(24.dp),
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            onDismiss()
-                        }) {
-                        Text("Send")
-                    }
-                },
-                dismissButton = {
-                    Button(
-                        onClick = {
-                            onDismiss()
-                        }) {
-                        Text("Cancel")
-                    }
+                    }) {
+                    Text("Send")
                 }
-            )
-        }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        onDismiss()
+                    }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 }
 @Composable
-fun DialogoAlertabn(dialogoVisible:Boolean) {
+fun DialogoAlertaVersion(
+    dialogoVisible: Boolean,
+    onDismiss: () -> Unit,
+    //onConfirm: ()-> Unit
+) {
+    if (dialogoVisible) {
+        AlertDialog(
+            onDismissRequest = {
+                onDismiss()
+            },
+            title = {
+                Text(text = "Trabajo Realizado por:")
+            },
+            text = {
+                Text("Álvaro Gómez Méndez\nFelipe Alejandro Borjas de los Dolores\nMaría Esperanza Pérez Martín")
+            },
+            shape = RoundedCornerShape(30.dp),
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onDismiss()
+                    }) {
+                    Text("Send")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        onDismiss()
+                    }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun DialogoAlertabn(dialogoVisible: Boolean) {
     Column {
         var dialogoVisible by remember { mutableStateOf(true) }
         if (dialogoVisible) {
             AlertDialog(
                 onDismissRequest = {
-                    dialogoVisible=false
+                    dialogoVisible = false
                 },
                 title = {
                     Text(text = "Problems")
@@ -438,11 +549,11 @@ fun DialogoAlertabn(dialogoVisible:Boolean) {
 
 @Composable
 fun MyDialog(
-    show:Boolean,
-    onDismiss: ()-> Unit,
-    onConfirm: ()-> Unit
-){
-    if (show){
+    show: Boolean,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit
+) {
+    if (show) {
         /*AlertDialog(onDismiss ={onDismiss},
 
             confirmButton={

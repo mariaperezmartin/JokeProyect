@@ -42,6 +42,7 @@ fun ApisRemotasTheme(isDarkTheme: Boolean = isSystemInDarkTheme(), content: @Com
 
     MaterialTheme(
         colors = colors,
+        typography = getTypography(isDarkTheme),
         shapes = Shapes,
         content = content
     )

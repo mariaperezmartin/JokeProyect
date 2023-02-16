@@ -17,7 +17,6 @@ import com.alvarogm.apisremotas.ui.theme.components.ErrorBlock
 import com.alvarogm.apisremotas.ui.theme.components.JokeCell
 import com.alvarogm.apisremotas.ui.theme.components.JokeCellLocal
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -26,7 +25,7 @@ import kotlinx.coroutines.launch
 fun Pantalla2(
     category: String,
     amount: Int,
-    darkMode: MutableState<Boolean>,
+    darkMode: Boolean,
     viewModel: JokesViewModel,
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope

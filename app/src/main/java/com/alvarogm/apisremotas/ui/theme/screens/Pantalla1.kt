@@ -179,13 +179,10 @@ Column(modifier = Modifier.fillMaxSize(),
                     ),
                 elevation = 0.dp,
                 shape = RoundedCornerShape(10.dp),
-                //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
+                //onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                 //onClick = { navController.navigate(Destinations.Pantalla2.route) }
 
                 onClick = { navegarPantalla2("Programming",textValue.toInt()) }
-
-
-
             ) {
                 /* Image(
                      painter = painterResource(id = R.drawable.ic_baseline_android_24),

@@ -1,26 +1,30 @@
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import android.provider.Settings.Global.getString
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.alvarogm.apisremotas.R
+import com.alvarogm.apisremotas.TitleWithThemeToggle
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 import com.alvarogm.apisremotas.ui.theme.navigation.NavigationHost
 import com.alvarogm.apisremotas.ui.theme.screens.BottomNavigationBar
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
-    darkMode: MutableState<Boolean>,
-    viewModel: JokesViewModel
+    darkMode: Boolean,
+    viewModel: JokesViewModel,
+    onThemeToggle: () -> Unit
 ) {
-
+   /* var isDarkTheme by remember { mutableStateOf(darkMode) }
+    isDarkTheme = darkMode*/
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState(
         drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -40,6 +44,12 @@ fun MainScreen(
         scaffoldState = scaffoldState,
         bottomBar = { BottomNavigationBar(navController = navController, items = navigationItems) },
     ){
+/*         Column(horizontalAlignment = Alignment.End, modifier = Modifier.shadow(0.dp)) {
+                       TitleWithThemeToggle(
+                           title = "etString(R.string.app_name)",
+                           isDarkTheme = darkMode
+                       )
+                   }*/
         NavigationHost(navController, darkMode, viewModel,scaffoldState ,coroutineScope)
     }
 
