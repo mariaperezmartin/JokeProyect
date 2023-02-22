@@ -1,14 +1,17 @@
 package com.alvarogm.apisremotas.ui.theme.navigation
 
 import android.provider.Settings.Global.getString
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -56,13 +59,15 @@ fun NavigationHost(
         }
 
         composable(Pantalla3.route) {
-           // Pantalla3()
+            // Pantalla3()
             //SettingsScreen()
             Column (
                 modifier = Modifier
+                    .padding(horizontal = 23.dp)
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly,
             ){
                 //PressedButton(darkMode) { }
                 TitleApp()

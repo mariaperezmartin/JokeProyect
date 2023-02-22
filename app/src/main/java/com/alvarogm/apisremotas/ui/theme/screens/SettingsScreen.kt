@@ -1,28 +1,27 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
+import android.content.SharedPreferences
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.alvarogm.apisremotas.R
-import com.alvarogm.apisremotas.ui.theme.AppColors
-import com.gandiva.neumorphic.LightSource
-import com.gandiva.neumorphic.neu
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.alvarogm.apisremotas.MainActivity
+import com.alvarogm.apisremotas.data.ApiService
+import com.alvarogm.apisremotas.data.JokeRemoteDatasource
+import com.alvarogm.apisremotas.data.RetrofitBuilder
+import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.AppTextStyle
+import com.gandiva.neumorphic.LightSource
+import com.gandiva.neumorphic.neu
+import java.util.prefs.Preferences
 
 
 /*
@@ -246,18 +245,18 @@ fun PressedSppiner() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .height(120.dp),
+            .height(100.dp),
     ) {
         Text(
             text = "Language",
             fontSize = 25.sp,
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 7.dp)
+            modifier = Modifier.padding( vertical = 7.dp)
         )
         //Empieza Spinner
         Card(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(defaultWidgetPadding)
+                //.padding(defaultWidgetPadding)
                 .neu(
                     lightShadowColor = AppColors.lightShadow(),
                     darkShadowColor = AppColors.darkShadow(),
@@ -265,13 +264,14 @@ fun PressedSppiner() {
                     lightSource = LightSource.LEFT_TOP,
                 ),
             elevation = 0.dp,
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(9.dp),
         ) {
             Text(
                 items[selectedIndex],
+                textAlign =TextAlign.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 20.dp, 7.dp)
+                    //.padding(horizontal = 20.dp, 7.dp)
                     .clickable(onClick = { expanded = true })
             )
             androidx.compose.material.DropdownMenu(
@@ -309,7 +309,7 @@ fun PressedButtonError() {
         Text(
             text = "Error",
             fontSize = 25.sp,
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
+            modifier = Modifier.padding( vertical = 5.dp)
         )
         var dialogoVisible by rememberSaveable { mutableStateOf(false) }
         Button(
@@ -381,7 +381,7 @@ fun PressedButtonVersion() {
         Text(
             text = "Version",
             fontSize = 25.sp,
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
+            modifier = Modifier.padding(vertical = 5.dp)
         )
         var dialogoVisibleVersion by rememberSaveable { mutableStateOf(false) }
         Button(
@@ -405,31 +405,31 @@ fun PressedButtonVersion() {
             }
         }
         DialogoAlertaVersion(dialogoVisibleVersion, { dialogoVisibleVersion = false })
-   /*     Row(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Card(
-                modifier = Modifier
-                    .padding(defaultWidgetPadding)
-                    .height(50.dp)
-                    .fillMaxSize()
-                    .neu(
-                        lightShadowColor = AppColors.lightShadow(),
-                        darkShadowColor = AppColors.darkShadow(),
-                        shadowElevation = defaultElevation,
-                        lightSource = LightSource.LEFT_TOP,
-                        //shape = Flat(Oval),
-                    ),
-                //.clickable(true, onClick = {}),
-                elevation = 0.dp,
-                shape = RoundedCornerShape(24.dp),
-            ) {
-                Text(
-                    text = "V.1",
-                    modifier = Modifier.padding(12.dp)
-                )
-            }
-        }*/
+        /*     Row(
+                 modifier = Modifier.fillMaxWidth(),
+             ) {
+                 Card(
+                     modifier = Modifier
+                         .padding(defaultWidgetPadding)
+                         .height(50.dp)
+                         .fillMaxSize()
+                         .neu(
+                             lightShadowColor = AppColors.lightShadow(),
+                             darkShadowColor = AppColors.darkShadow(),
+                             shadowElevation = defaultElevation,
+                             lightSource = LightSource.LEFT_TOP,
+                             //shape = Flat(Oval),
+                         ),
+                     //.clickable(true, onClick = {}),
+                     elevation = 0.dp,
+                     shape = RoundedCornerShape(24.dp),
+                 ) {
+                     Text(
+                         text = "V.1",
+                         modifier = Modifier.padding(12.dp)
+                     )
+                 }
+             }*/
     }
 }
 
