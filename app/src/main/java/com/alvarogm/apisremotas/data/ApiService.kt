@@ -12,11 +12,12 @@ interface ApiService {
  suspend fun getJoke(@Query("amount") amount: Int,@Query("amount2") amount2: Int): JokeClass
 */
 
- @GET("joke/{category}")
+ @GET("joke/{category}?lang=en")
  suspend fun getJoke(@Path("category") category: String, @Query("amount") amount: Int): JokeClass
 
- @GET("joke/{category}")
+ @GET("joke/{category}?lang=en")
  suspend fun getOneJoke(@Path("category") category: String, @Query("amount") amount: Int): Joke
+
 
 /* @Query("SELECT * FROM Jokes ")
  fun getAll(): Flow<List<JokeClass>>*/

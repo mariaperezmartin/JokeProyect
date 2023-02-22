@@ -2,13 +2,13 @@ package com.alvarogm.apisremotas.presentation;
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alvarogm.apisremotas.data.Joke
+import com.alvarogm.apisremotas.data.JokeClass
 import com.alvarogm.apisremotas.data.JokeRemoteDatasource
 import com.alvarogm.apisremotas.data.local.Jokes
 import com.alvarogm.apisremotas.data.local.JokesDatasource
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class JokesViewModel(
@@ -16,22 +16,28 @@ class JokesViewModel(
     private val jokesDatasource: JokesDatasource
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<JokesScreenState> =  MutableStateFlow(JokesScreenState.Loading)
+    private val _uiState: MutableStateFlow<JokesScreenState> =
+        MutableStateFlow(JokesScreenState.Loading)
     val uiState: StateFlow<JokesScreenState> = _uiState.asStateFlow()
 
-    private val _uiStateLocal: MutableStateFlow<JokesScreenStateLocal> = MutableStateFlow(JokesScreenStateLocal.LoadingLocal)
+    private val _uiStateLocal: MutableStateFlow<JokesScreenStateLocal> =
+        MutableStateFlow(JokesScreenStateLocal.LoadingLocal)
     val uiStateLocal: StateFlow<JokesScreenStateLocal> = _uiStateLocal.asStateFlow()
 
-/*    private val handler2 = CoroutineExceptionHandler { _, _ ->
-        _uiStateLocal.value = JokesScreenStateLocal.NoResultsLocal(
-            "Ha ocurrido un error, revise su conexión a internet o inténtelo de nuevo " + "más tarde"
-        )
-    }*/
 
     private val handler = CoroutineExceptionHandler { _, _ ->
         _uiState.value = JokesScreenState.Error(
             "Ha ocurrido un error, revise su conexión a internet o inténtelo de nuevo " + "más tarde"
         )
+    }
+
+    fun getJokesOrOneJoke(category: String, jokeAmount: Int) {
+        if (jokeAmount > 1) {
+            getJokes(category, jokeAmount)
+        } else {
+           /* getOneJoke(category, jokeAmount)*/
+            getJokes(category, 2)
+        }
     }
 
 
@@ -51,36 +57,23 @@ class JokesViewModel(
         }
     }
 
-    fun saveJoke(joke: String){
+    fun saveJoke(joke: String) {
         viewModelScope.launch {
             jokesDatasource.createJoke(joke)
         }
     }
 
- /*   fun getAllJokes() {
+    fun getAllJokes() {
         viewModelScope.launch {
-      *//*      delay(3000) // TODO: Don't forget to remove this*//*
-            jokesDatasource.getJokes().collect {
-                if (it.isEmpty()) {
-                    _uiStateLocal.value = JokesScreenStateLocal.NoResultsLocal
+            jokesDatasource.getJokes().collect { jokes ->
+                _uiStateLocal.value = if (jokes.isEmpty()) {
+                    JokesScreenStateLocal.NoResultsLocal("No se han encontrado resultados")
                 } else {
-                    _uiStateLocal.value = JokesScreenStateLocal.SuccessLocal(it)
+                    JokesScreenStateLocal.SuccessLocal(jokes)
                 }
             }
         }
-    }*/
- fun getAllJokes() {
-     viewModelScope.launch {
-         jokesDatasource.getJokes().collect { jokes ->
-             _uiStateLocal.value = if (jokes.isEmpty()) {
-                 JokesScreenStateLocal.NoResultsLocal("No se han encontrado resultados")
-             } else {
-                 JokesScreenStateLocal.SuccessLocal(jokes)
-             }
-         }
-     }
- }
-
+    }
     fun deleteJoke(joke: Jokes) {
         viewModelScope.launch {
             jokesDatasource.deleteJoke(joke)

@@ -1,13 +1,13 @@
 package com.alvarogm.apisremotas.ui.theme.components
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +30,7 @@ import com.gandiva.neumorphic.shape.Oval
 import com.gandiva.neumorphic.shape.RoundedCorner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 @Composable
@@ -38,7 +39,11 @@ fun JokeCell(
     viewModel: JokesViewModel,
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope
+
 ) {
+   // val isDuplicate by rememberFlowWithLifecycle(viewModel.isJokeDuplicate(joke.joke)).collectAsState(initial = false)
+
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,7 +102,8 @@ fun JokeCell(
                 ) {
 
                     IconButton(
-                        modifier = Modifier.padding(defaultWidgetPadding),
+                        modifier = Modifier.padding(0.dp),
+
                         onClick = {
                             if (joke.type == "twopart") {
                                 viewModel.saveJoke(joke.setup + " " + joke.delivery)
@@ -113,10 +119,43 @@ fun JokeCell(
                             }
                         }
                     ) {
+                        /*  Icon(
+                              painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
+                              contentDescription = Destinations.Pantalla2.title,
+                          )*/
+
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
+
+                            modifier = Modifier.size(30.dp),
+                 /*           tint = (
+
+                                    *//*    if (isDuplicate && joke.type == "single") {
+                                            Color.Red
+                                        } else {
+                                            Color.Black
+                                        }*//*
+
+                                   *//* if (joke.type == "twopart") {
+                                        if (viewModel.isJokeDuplicate(joke.setup + " " + joke.delivery)) {
+                                            Color.Red
+                                        } else {
+                                            Color.Black
+                                        }
+                                    } else {
+                                        if (isDuplicate) {
+                                            Color.Red
+                                        } else {
+                                            Color.Black
+                                        }
+                                    }*//*
+                                    ),*/
+                            painter = painterResource(id =  R.drawable.ic_baseline_emoji_favorite
+
+                            ),
                             contentDescription = Destinations.Pantalla2.title,
+
                         )
+
                     }
 
                 }

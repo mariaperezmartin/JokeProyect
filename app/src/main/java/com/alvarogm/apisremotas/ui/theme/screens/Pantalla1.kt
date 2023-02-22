@@ -3,6 +3,7 @@ package com.alvarogm.apisremotas.ui.theme.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.alvarogm.apisremotas.R
@@ -81,11 +83,21 @@ Column(modifier = Modifier
         Row {
             TextField(
                 value = textValue,
-                onValueChange = { textValue = it },
+                onValueChange = {
+                    if (it.isEmpty()){
+                        textValue = it
+                    } else {
+                        textValue = when (it.toDoubleOrNull()) {
+                            null -> textValue //old value
+                            else -> it   //new value
+                        }
+                    }
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 label = { Text("Cantidad de Chistes") },
                 modifier = Modifier
                     .width(270.dp)
-                    .height(55.dp)
+                    .height(65.dp)
                     .neu(defaultPressedNetAttrs()),
                 shape = RoundedCornerShape(20.dp),
                 singleLine = false,

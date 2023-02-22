@@ -9,7 +9,7 @@ import com.alvarogm.apisremotas.data.JokeClass
 @Entity
 data class Jokes (
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
-    @ColumnInfo(name = "joke") val joke:String,
+    @ColumnInfo(name = "joke") val joke:String
 )
 
 

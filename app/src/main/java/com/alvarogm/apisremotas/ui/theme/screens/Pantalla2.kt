@@ -91,7 +91,7 @@ fun Pantalla2(
                         is JokesScreenState.Error ->
                             ErrorBlock(
                                 message = (screenState as JokesScreenState.Error).message
-                            ) { viewModel.getJokes(category, 2) }
+                            ) { viewModel.getJokes(category, amount) }
                         is JokesScreenState.Success ->
                             Column(
                                 modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -99,12 +99,24 @@ fun Pantalla2(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(text = "1 JOKE - ${category.uppercase()}")
-                                JokeCell(
+                             /*   val joke = (screenState as JokesScreenState.Success).jokes[0]
+                                JokeCell(joke, viewModel, scaffoldState, coroutineScope)
+*/
+                               /* (screenState as JokesScreenState.Success).jokes.forEach() {
+                                    JokeCell(it, viewModel, scaffoldState,coroutineScope)
+                                }*/
+                               /* JokeCell(
                                     (screenState as JokesScreenState.Success).jokes[0],
                                     viewModel,
                                     scaffoldState,
                                     coroutineScope
-                                )
+                                )*/
+                             /*   (screenState as JokesScreenState.Success).jokes.forEach() {
+                                    JokeCell(it, viewModel, scaffoldState,coroutineScope)
+                                    return@forEach
+                                }*/
+
+                                JokeCell((screenState as JokesScreenState.Success).jokes[1], viewModel, scaffoldState,coroutineScope)
                             }
                         else -> {}
                     }
@@ -140,11 +152,12 @@ fun Pantalla2(
                 if (category == "MisBromas") {
                     viewModel.getAllJokes()
                 } else {
-                    if (amount == 1) {
-                        viewModel.getOneJoke(category, 2)
+                    viewModel.getJokesOrOneJoke(category, amount)
+                   /* if (amount == 1) {
+                        viewModel.getOneJoke(category, amount)
                     } else {
                         viewModel.getJokes(category, amount)
-                    }
+                    }*/
                 }
             }
         }

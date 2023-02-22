@@ -73,27 +73,8 @@ fun JokeCellOne(joke: Joke, viewModel: JokesViewModel) {
                     )
                     Text(text = joke.joke)
                 }
-
-                /*  Text(text = joke.category)
-                    Text(text = joke.lang, style = TextStyle(color = Color.LightGray))*/
-                //Text(text = joke.toString(), fontWeight = FontWeight.Bold)
-                //Text(text = joke.setup.toString(), fontWeight = FontWeight.Bold)
             }
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-/*                ImageButton(
-                    modifier = Modifier.padding(defaultWidgetPadding),
-                    drawableResId = R.drawable.baseline_home_24,
-                    contentDescription = "Like",
-                ) {
-                    viewModel.saveJoke(joke.joke)
-                }
-                Icon(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(id = R.drawable.baseline_home_24),
-                    contentDescription = Destinations.Pantalla2.title,
-                    //tint = if(selected) Color.Blue else Color.Gray
-
-                )*/
                 Card(
                     modifier = Modifier
                         .size(48.dp)

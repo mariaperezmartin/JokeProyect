@@ -323,7 +323,7 @@ fun PressedButtonError() {
             ), shape = RoundedCornerShape(9.dp)
         ) {
             Text(
-                text = "Button", style = AppTextStyle.button()
+                text = "Problems", style = AppTextStyle.button()
             )
         }
         DialogoAlerta(dialogoVisible, { dialogoVisible = false })
