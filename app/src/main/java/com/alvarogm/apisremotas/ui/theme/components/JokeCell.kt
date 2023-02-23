@@ -47,6 +47,7 @@ fun JokeCell(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(10.dp,0.dp,0.dp,10.dp)
             .neu(
                 lightShadowColor = AppColors.lightShadow(),
                 darkShadowColor = AppColors.darkShadow(),
