@@ -2,18 +2,18 @@ package com.alvarogm.apisremotas.presentation;
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alvarogm.apisremotas.data.Joke
-import com.alvarogm.apisremotas.data.JokeClass
-import com.alvarogm.apisremotas.data.JokeRemoteDatasource
-import com.alvarogm.apisremotas.data.local.Jokes
-import com.alvarogm.apisremotas.data.local.JokesDatasource
+import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
+import com.alvarogm.apisremotas.data.local.database.Jokes
+import com.alvarogm.apisremotas.data.local.database.JokesDatasource
+import com.alvarogm.apisremotas.data.local.preferences.SettingsDatasource
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class JokesViewModel(
     private val jokesRemoteDatasource: JokeRemoteDatasource,
-    private val jokesDatasource: JokesDatasource
+    private val jokesDatasource: JokesDatasource,
+    private val settingsDatasource: SettingsDatasource
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<JokesScreenState> =
@@ -100,6 +100,12 @@ class JokesViewModel(
     fun deleteJoke(joke: Jokes) {
         viewModelScope.launch {
             jokesDatasource.deleteJoke(joke)
+        }
+    }
+
+    fun getLanguage(){
+        viewModelScope.launch {
+            val newLanguage = settingsDatasource.setLanguage()
         }
     }
 

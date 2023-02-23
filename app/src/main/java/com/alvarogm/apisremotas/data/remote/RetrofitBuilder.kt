@@ -1,4 +1,4 @@
-package com.alvarogm.apisremotas.data
+package com.alvarogm.apisremotas.data.remote
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

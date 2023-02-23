@@ -5,41 +5,35 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.alvarogm.apisremotas.data.JokeRemoteDatasource
-import com.alvarogm.apisremotas.data.RetrofitBuilder
+import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
+import com.alvarogm.apisremotas.data.remote.RetrofitBuilder
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.ApisRemotasTheme
-import com.alvarogm.apisremotas.data.local.JokesDatasource
+import com.alvarogm.apisremotas.data.local.database.JokesDatasource
+import com.alvarogm.apisremotas.data.local.preferences.SettingsDatasource
 import com.alvarogm.apisremotas.ui.theme.AppColors
-import com.alvarogm.apisremotas.ui.theme.AppTextStyle
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 /*import com.alvarogm.apisremotas.ui.theme.screens.ImageButton*/
-import com.alvarogm.apisremotas.ui.theme.screens.defaultCornerShape
 import com.alvarogm.apisremotas.ui.theme.screens.defaultElevation
-import com.alvarogm.apisremotas.ui.theme.screens.defaultWidgetPadding
 import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
-import com.gandiva.neumorphic.shape.RoundedCorner
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private val apiDatasource = JokeRemoteDatasource(RetrofitBuilder.apiService)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val dbDatasource = JokesDatasource(applicationContext)
-        val viewModel = JokesViewModel(apiDatasource, dbDatasource)
+        val settingsDatasource = SettingsDatasource(applicationContext)
+        val viewModel = JokesViewModel(apiDatasource, dbDatasource, settingsDatasource)
         setContent {
             var isDarkTheme by remember {
                 mutableStateOf(false)

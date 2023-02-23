@@ -1,7 +1,6 @@
 package com.alvarogm.apisremotas.presentation
 
-import com.alvarogm.apisremotas.data.JokeClass
-import com.alvarogm.apisremotas.data.local.Jokes
+import com.alvarogm.apisremotas.data.local.database.Jokes
 
 data class MainScreenUiState(val state: JokesScreenStateLocal)
 sealed class JokesScreenStateLocal {

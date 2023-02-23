@@ -1,4 +1,4 @@
-package com.alvarogm.apisremotas.data.local
+package com.alvarogm.apisremotas.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

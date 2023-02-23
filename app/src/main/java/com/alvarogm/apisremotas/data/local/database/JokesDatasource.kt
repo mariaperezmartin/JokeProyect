@@ -1,8 +1,6 @@
-package com.alvarogm.apisremotas.data.local
+package com.alvarogm.apisremotas.data.local.database
 
 import android.content.Context
-import com.alvarogm.apisremotas.data.JokeClass
-import com.alvarogm.apisremotas.data.local.Jokes
 import com.alvarogm.apisremotas.data.local.getDatabase
 import kotlinx.coroutines.flow.Flow
 

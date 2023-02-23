@@ -1,6 +1,5 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
-import android.content.SharedPreferences
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,15 +12,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.alvarogm.apisremotas.MainActivity
-import com.alvarogm.apisremotas.data.ApiService
-import com.alvarogm.apisremotas.data.JokeRemoteDatasource
-import com.alvarogm.apisremotas.data.RetrofitBuilder
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.AppTextStyle
 import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
-import java.util.prefs.Preferences
 
 
 /*

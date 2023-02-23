@@ -1,4 +1,5 @@
-package com.alvarogm.apisremotas.data
+package com.alvarogm.apisremotas.data.remote
+
 /*data class JokeClass(
     val amount: Int,
     val error: Boolean,
