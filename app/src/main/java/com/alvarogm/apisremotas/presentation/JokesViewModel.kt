@@ -35,7 +35,7 @@ class JokesViewModel(
         if (jokeAmount > 1) {
             getJokes(category, jokeAmount)
         } else {
-           /* getOneJoke(category, jokeAmount)*/
+            /* getOneJoke(category, jokeAmount)*/
             getJokes(category, 2)
         }
     }
@@ -45,6 +45,28 @@ class JokesViewModel(
         viewModelScope.launch(handler) {
             /*_uiState.value = JokesScreenState.Loading*/
             val jokes = jokesRemoteDatasource.getJoke(category, jokeAmount)
+            /*jokesDatasource.getJokes().collect {
+                val filteredList = it.filter { item -> jokes.id == item.id }
+                if(filteredList.isNotEmpty()) {
+
+                }
+            }*/
+            /*jokesDatasource.getJokes().collect {
+                val filteredList = it.filter { item -> jokes.id == item.id }
+                if(filteredList.isNotEmpty()) {
+
+                }
+            }*/
+
+            /*jokesDatasource.getJokes().collect {
+                val filteredList = it.map { item -> JokeClass(
+
+                ) }
+                    if(filteredList.isNotEmpty()) {
+
+                }
+                }*/
+            //jokesLocal
             _uiState.value = JokesScreenState.Success(jokes.jokes)
         }
     }
@@ -74,6 +96,7 @@ class JokesViewModel(
             }
         }
     }
+
     fun deleteJoke(joke: Jokes) {
         viewModelScope.launch {
             jokesDatasource.deleteJoke(joke)
