@@ -24,13 +24,21 @@ class JokesViewModel(
         MutableStateFlow(JokesScreenStateLocal.LoadingLocal)
     val uiStateLocal: StateFlow<JokesScreenStateLocal> = _uiStateLocal.asStateFlow()
 
-
     private val handler = CoroutineExceptionHandler { _, _ ->
         _uiState.value = JokesScreenState.Error(
             "Ha ocurrido un error, revise su conexión a internet o inténtelo de nuevo " + "más tarde"
         )
     }
 
+    fun getMyPreference() {
+       viewModelScope.launch(handler) {
+           settingsDatasource.getLanguage()
+        }
+    }
+
+    suspend fun setMyPreference(s: Unit) {
+        settingsDatasource.setLanguage(s)
+    }
     fun getJokesOrOneJoke(category: String, jokeAmount: Int) {
         if (jokeAmount > 1) {
             getJokes(category, jokeAmount)
@@ -100,12 +108,6 @@ class JokesViewModel(
     fun deleteJoke(joke: Jokes) {
         viewModelScope.launch {
             jokesDatasource.deleteJoke(joke)
-        }
-    }
-
-    fun getLanguage(){
-        viewModelScope.launch {
-            val newLanguage = settingsDatasource.setLanguage()
         }
     }
 

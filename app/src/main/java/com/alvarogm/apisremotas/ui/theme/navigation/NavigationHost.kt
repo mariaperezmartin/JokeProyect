@@ -1,6 +1,5 @@
 package com.alvarogm.apisremotas.ui.theme.navigation
 
-import android.provider.Settings.Global.getString
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,8 +15,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.alvarogm.apisremotas.R
-import com.alvarogm.apisremotas.TitleWithThemeToggle
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations.*
 import com.alvarogm.apisremotas.ui.theme.screens.*
@@ -34,6 +31,7 @@ fun NavigationHost(
 ) {
     var isDarkTheme by remember { mutableStateOf(darkMode) }
     isDarkTheme = darkMode
+
     NavHost(navController = navController, startDestination = Pantalla1.route) {
 
         composable(Pantalla1.route) {
@@ -71,7 +69,7 @@ fun NavigationHost(
             ){
                 //PressedButton(darkMode) { }
                 TitleApp()
-                PressedSppiner()
+                PressedSppiner(viewModel)
                 PressedButtonError()
                 PressedButtonVersion()
             }

@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.AppTextStyle
 import com.gandiva.neumorphic.LightSource
@@ -234,8 +235,9 @@ fun Button(){
 
 //Spinner de selección lenguaje
 @Composable
-fun PressedSppiner() {
+fun PressedSppiner(viewModel: JokesViewModel) {
     var expanded by remember { mutableStateOf(false) }
+    var s by remember { mutableStateOf(viewModel.getMyPreference()) }
     val items = listOf("En", "De", "Es", "Fr")
     val disabledValue = "En"
     var selectedIndex by remember { mutableStateOf(0) }
@@ -291,6 +293,11 @@ fun PressedSppiner() {
                     }
                 }
             }
+        }
+    }
+    LaunchedEffect(viewModel) {
+        if (!s.equals("")) {
+            viewModel.setMyPreference(s)
         }
     }
 
