@@ -1,5 +1,6 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,6 +9,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,6 +21,9 @@ import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.AppTextStyle
 import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
 /*
@@ -321,46 +329,6 @@ fun PressedButtonError() {
             )
         }
         DialogoAlerta(dialogoVisible, { dialogoVisible = false })
-        /* Text(
-             text = "Error",
-             fontSize = 25.sp,
-             modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
-         )
-         Row(
-             modifier = Modifier.fillMaxWidth(),
-         ) {
-             Card(
-                 modifier = Modifier
-                     .padding(defaultWidgetPadding)
-                     .height(50.dp)
-                     .fillMaxSize()
-                     .neu(
-                         lightShadowColor = AppColors.lightShadow(),
-                         darkShadowColor = AppColors.darkShadow(),
-                         shadowElevation = defaultElevation,
-                         lightSource = LightSource.LEFT_TOP,
-                         //shape = Flat(Oval),
-
-
-                     )
-                     .clickable {},
-                 elevation = 0.dp,
-                 shape = RoundedCornerShape(24.dp),
-             ){
-                 Row(
-                     modifier = Modifier.fillMaxWidth(),
-                     //horizontalArrangement = Arrangement.SpaceBetween,
-                 ) {
-                     Image(painter = painterResource(R.drawable.ic_launcher_foreground), contentDescription = "Android")
-
-                     var dialogoVisible by rememberSaveable { mutableStateOf(false) }
-                     Button(onClick = { dialogoVisible = true }) {
-                         Text("Problems")
-                     }
-                     DialogoAlerta(dialogoVisible,{dialogoVisible=false})
-                 }
-             }
-         }*/
     }
 }
 
@@ -392,38 +360,10 @@ fun PressedButtonVersion() {
                 modifier = Modifier.padding(0.dp),
                 Alignment.CenterStart
             ) {
-                Text(
-                    "1.0",
-                    //Modifier.padding(16.dp),
-                )
+                Text("1.0")
             }
         }
         DialogoAlertaVersion(dialogoVisibleVersion, { dialogoVisibleVersion = false })
-        /*     Row(
-                 modifier = Modifier.fillMaxWidth(),
-             ) {
-                 Card(
-                     modifier = Modifier
-                         .padding(defaultWidgetPadding)
-                         .height(50.dp)
-                         .fillMaxSize()
-                         .neu(
-                             lightShadowColor = AppColors.lightShadow(),
-                             darkShadowColor = AppColors.darkShadow(),
-                             shadowElevation = defaultElevation,
-                             lightSource = LightSource.LEFT_TOP,
-                             //shape = Flat(Oval),
-                         ),
-                     //.clickable(true, onClick = {}),
-                     elevation = 0.dp,
-                     shape = RoundedCornerShape(24.dp),
-                 ) {
-                     Text(
-                         text = "V.1",
-                         modifier = Modifier.padding(12.dp)
-                     )
-                 }
-             }*/
     }
 }
 
@@ -432,45 +372,105 @@ fun PressedButtonVersion() {
 @Composable
 fun DialogoAlerta(
     dialogoVisible: Boolean,
-    onDismiss: () -> Unit,
-    //onConfirm: ()-> Unit
+    onDismiss: () -> Unit
 ) {
+    val emailBody = remember { //propio mensaje del correo
+        mutableStateOf(TextFieldValue())
+    }
+
+    val ctx = LocalContext.current
     if (dialogoVisible) {
         AlertDialog(
             onDismissRequest = {
                 onDismiss()
             },
+            modifier = Modifier.height(280.dp)
+            ,
             title = {
                 Text(text = "Problems")
             },
             text = {
-                Text("Write the problem and we will try to solve it")
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Write the problem and we will try to solve it")
+                    Spacer(modifier = Modifier.height(20.dp))
+                    TextField(
+                        value = emailBody.value,
+                        onValueChange = { emailBody.value = it },
+                       /* keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),*/
+                        label = { Text("Enter email body") },
+                        modifier = Modifier
+                            /* .width(270.dp)
+                            .height(65.dp)*/
+                            .height(55.dp)
+                            .neu(defaultPressedNetAttrs()),
+                        shape = RoundedCornerShape(20.dp),
+                        singleLine = false,
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = Color.Gray,
+                            disabledTextColor = Color.Transparent,
+                            backgroundColor =  MaterialTheme.colors.surface,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            disabledIndicatorColor = Color.Transparent
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(25.dp))
+                    Row() {
+
+                        Button(
+                            onClick = {  onDismiss() }, modifier = Modifier
+                                .neu(defaultFlatNeuAttrs())
+                            ,
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.surface
+                            ), shape = RoundedCornerShape(9.dp)
+                        ) {
+                            Text("Cancel")
+                        }
+                        Spacer(modifier = Modifier.width(25.dp))
+                        Button(onClick = {
+
+                            // on below line we are creating
+                            // an intent to send an email
+                            val i = Intent(Intent.ACTION_SEND)
+
+                            // on below line we are passing email address,
+                            // email subject and email body
+                            val emailAddress = arrayOf("soporteappjokes@gmail.com")
+                            i.putExtra(Intent.EXTRA_EMAIL,emailAddress)
+                            i.putExtra(Intent.EXTRA_SUBJECT,"JokesAPP - Reporte Error")//asunto
+                            i.putExtra(Intent.EXTRA_TEXT,emailBody.value.text)
+
+                            // on below line we are
+                            // setting type of intent
+                            i.setType("message/rfc822")
+
+                            // on the below line we are starting our activity to open email application.
+                            ctx.startActivity(Intent.createChooser(i,"Choose an Email client : "))
+
+                        },colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.surface),modifier = Modifier
+                            .neu(defaultFlatNeuAttrs())) {
+                            // on the below line creating a text for our button.
+                            Text("Send")
+                        }
+                    }
+
+                }
             },
             shape = RoundedCornerShape(24.dp),
-            confirmButton = {
-                Button(
-                    onClick = {
-                        onDismiss()
-                    }) {
-                    Text("Send")
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = {
-                        onDismiss()
-                    }) {
-                    Text("Cancel")
-                }
-            }
+            confirmButton = {},
+            dismissButton = {}
         )
     }
 }
+
 @Composable
 fun DialogoAlertaVersion(
     dialogoVisible: Boolean,
     onDismiss: () -> Unit,
-    //onConfirm: ()-> Unit
 ) {
     if (dialogoVisible) {
         AlertDialog(
@@ -481,29 +481,24 @@ fun DialogoAlertaVersion(
                 Text(text = "Trabajo Realizado por:")
             },
             text = {
-                Text("Álvaro Gómez Méndez\nFelipe Alejandro Borjas de los Dolores\nMaría Esperanza Pérez Martín")
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Álvaro Gómez Méndez\nFelipe Alejandro Borjas de los Dolores\nMaría Esperanza Pérez Martín")
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Button(onClick = {onDismiss()},colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.surface),modifier = Modifier
+                        .neu(defaultFlatNeuAttrs()).fillMaxWidth()) {
+                        Text("Great!!")
+                    }
+                }
             },
             shape = RoundedCornerShape(30.dp),
-            confirmButton = {
-                Button(
-                    onClick = {
-                        onDismiss()
-                    }) {
-                    Text("Send")
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = {
-                        onDismiss()
-                    }) {
-                    Text("Cancel")
-                }
-            }
+            confirmButton = {},
+            dismissButton = {}
         )
     }
 }
 
+/*
 @Composable
 fun DialogoAlertabn(dialogoVisible: Boolean) {
     Column {
@@ -548,13 +543,15 @@ fun MyDialog(
     onConfirm: () -> Unit
 ) {
     if (show) {
-        /*AlertDialog(onDismiss ={onDismiss},
+        */
+/*AlertDialog(onDismiss ={onDismiss},
 
             confirmButton={
                 TextButton(onClick = {onConfirm}) {
                     Text(text = "ConfirmButton")
                 }
             },
-        )*/
+        )*//*
+
     }
-}
+}*/
