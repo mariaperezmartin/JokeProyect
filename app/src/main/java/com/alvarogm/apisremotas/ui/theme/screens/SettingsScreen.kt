@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,9 +20,6 @@ import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.AppTextStyle
 import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
 /*
@@ -304,6 +300,9 @@ fun PressedSppiner() {
 @Preview
 @Composable
 fun PressedButtonError() {
+    val emailBody = remember { //propio mensaje del correo
+        mutableStateOf(TextFieldValue(""))
+    }
     Column(
         modifier = Modifier
             .height(120.dp),
@@ -315,7 +314,7 @@ fun PressedButtonError() {
         )
         var dialogoVisible by rememberSaveable { mutableStateOf(false) }
         Button(
-            onClick = { dialogoVisible = true }, modifier = Modifier
+            onClick = { dialogoVisible = true; emailBody.value=TextFieldValue(" ")}, modifier = Modifier
                 .defaultMinSize(minHeight = 20.dp)
                 .fillMaxWidth()
 
@@ -328,7 +327,7 @@ fun PressedButtonError() {
                 text = "Problems", style = AppTextStyle.button()
             )
         }
-        DialogoAlerta(dialogoVisible, { dialogoVisible = false })
+        DialogoAlerta(dialogoVisible, { dialogoVisible = false },emailBody)
     }
 }
 
@@ -372,11 +371,10 @@ fun PressedButtonVersion() {
 @Composable
 fun DialogoAlerta(
     dialogoVisible: Boolean,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    emailBody: MutableState<TextFieldValue>
 ) {
-    val emailBody = remember { //propio mensaje del correo
-        mutableStateOf(TextFieldValue())
-    }
+
 
     val ctx = LocalContext.current
     if (dialogoVisible) {
@@ -449,7 +447,8 @@ fun DialogoAlerta(
 
                             // on the below line we are starting our activity to open email application.
                             ctx.startActivity(Intent.createChooser(i,"Choose an Email client : "))
-
+                           // onDismiss() //Dependiendo de como se vea, se pone o se quita el Dismiss
+9
                         },colors = ButtonDefaults.buttonColors(
                             backgroundColor = MaterialTheme.colors.surface),modifier = Modifier
                             .neu(defaultFlatNeuAttrs())) {
