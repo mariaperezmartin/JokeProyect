@@ -1,6 +1,7 @@
 package com.alvarogm.apisremotas.ui.theme.components
 
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -16,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.alvarogm.apisremotas.R
 import com.alvarogm.apisremotas.data.remote.JokeClass
 import com.alvarogm.apisremotas.presentation.JokesViewModel
@@ -41,7 +43,7 @@ fun JokeCell(
     coroutineScope: CoroutineScope
 
 ) {
-   // val isDuplicate by rememberFlowWithLifecycle(viewModel.isJokeDuplicate(joke.joke)).collectAsState(initial = false)
+    // val isDuplicate by rememberFlowWithLifecycle(viewModel.isJokeDuplicate(joke.joke)).collectAsState(initial = false)
 
 
     Card(
@@ -102,54 +104,90 @@ fun JokeCell(
                     shape = RoundedCornerShape(24.dp),
                 ) {
 
+                    //twopart
+                    val isJokeInDatabase = remember { mutableStateOf(false) }
+                    LaunchedEffect(Unit) {
+                        isJokeInDatabase.value = viewModel.isJokeInLocalDatabase(joke.setup + " " + joke.delivery)
+                    }
+
+                    //single
+                    val isJokeInDatabaseSingle = remember { mutableStateOf(false) }
+                    LaunchedEffect(Unit) {
+                        isJokeInDatabaseSingle.value = viewModel.isJokeInLocalDatabase(joke.joke)
+                    }
+
+                    val iconTint = if (joke.type == "twopart") {
+                        if (isJokeInDatabase.value) {
+                            Color.Red
+                        } else {
+                            Color.Black
+                        }
+                    } else {
+                        if (isJokeInDatabaseSingle.value) {
+                            Color.Red
+                        } else {
+                            Color.Black
+                        }
+                    }
+
                     IconButton(
                         modifier = Modifier.padding(0.dp),
 
                         onClick = {
                             if (joke.type == "twopart") {
-                                viewModel.saveJoke(joke.setup + " " + joke.delivery)
+                                if (isJokeInDatabase.value) {
+                                    coroutineScope.launch {
+                                        scaffoldState.snackbarHostState.showSnackbar(
+                                            message = "La broma ya esta guardada",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                } else {
+                                    viewModel.saveJoke(joke.setup + " " + joke.delivery)
+                                    coroutineScope.launch {
+                                        scaffoldState.snackbarHostState.showSnackbar(
+                                            message = "Broma guardada correctamente",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                }
+
                             } else {
-                                viewModel.saveJoke(joke.joke)
+                                if (isJokeInDatabaseSingle.value) {
+                                    coroutineScope.launch {
+                                        scaffoldState.snackbarHostState.showSnackbar(
+                                            message = "La broma ya esta guardada",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                } else {
+                                    viewModel.saveJoke(joke.joke)
+                                    coroutineScope.launch {
+                                        scaffoldState.snackbarHostState.showSnackbar(
+                                            message = "Broma guardada correctamente",
+                                            duration = SnackbarDuration.Short
+                                        )
+                                    }
+                                }
+
                             }
 
-                            coroutineScope.launch {
-                                scaffoldState.snackbarHostState.showSnackbar(
-                                    message = "Broma guardada correctamente",
-                                    duration = SnackbarDuration.Short
-                                )
-                            }
+
                         }
                     ) {
                         /*  Icon(
                               painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
                               contentDescription = Destinations.Pantalla2.title,
                           )*/
+                        //val coroutineScope = rememberCoroutineScope()
 
                         Icon(
-
                             modifier = Modifier.size(30.dp),
-                         tint = (
-
-                                    if (joke.type == "twopart") {
-                                        if (joke.isLocal) {
-                                            Color.Red
-                                        } else {
-                                            Color.Black
-                                        }
-                                    } else {
-                                        if (joke.isLocal) {
-                                            Color.Red
-                                        } else {
-                                            Color.Black
-                                        }
-                                    }
-                                    ),
-                            painter = painterResource(id =  R.drawable.ic_baseline_emoji_favorite
-
-                            ),
+                            tint = iconTint,
+                            painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
                             contentDescription = Destinations.Pantalla2.title,
-
                         )
+
 
                     }
 
