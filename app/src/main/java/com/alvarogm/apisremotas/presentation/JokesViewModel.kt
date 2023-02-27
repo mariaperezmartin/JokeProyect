@@ -39,20 +39,20 @@ class JokesViewModel(
     suspend fun setMyPreference(s: Unit) {
         settingsDatasource.setLanguage(s)
     }
-    fun getJokesOrOneJoke(category: String, jokeAmount: Int) {
+    fun getJokesOrOneJoke(category: String,lang: String, jokeAmount: Int) {
         if (jokeAmount > 1) {
-            getJokes(category, jokeAmount)
+            getJokes(category, lang, jokeAmount)
         } else {
             /* getOneJoke(category, jokeAmount)*/
-            getJokes(category, 2)
+            getJokes(category, lang, 2)
         }
     }
 
 
-    fun getJokes(category: String, jokeAmount: Int) {
+    fun getJokes(category: String,lang: String, jokeAmount: Int) {
         viewModelScope.launch(handler) {
             /*_uiState.value = JokesScreenState.Loading*/
-            val jokes = jokesRemoteDatasource.getJoke(category, jokeAmount)
+            val jokes = jokesRemoteDatasource.getJoke(category, lang,jokeAmount)
             /*jokesDatasource.getJokes().collect {
                 val filteredList = it.filter { item -> jokes.id == item.id }
                 if(filteredList.isNotEmpty()) {

@@ -10,6 +10,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -22,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun NavigationHost(
+
     navController: NavHostController,
     darkMode: Boolean,
     viewModel: JokesViewModel,
@@ -36,7 +38,7 @@ fun NavigationHost(
 
         composable(Pantalla1.route) {
             Pantalla1(
-                navegarPantalla2 = { newText,newText2 ->navController.navigate(Pantalla2.createRoute(newText,newText2)) },
+                navegarPantalla2 = { newText,newTextLang,newText2 ->navController.navigate(Pantalla2.createRoute(newText,newTextLang,newText2)) },
             navController = navController
             )
         }
@@ -45,14 +47,17 @@ fun NavigationHost(
             Pantalla2.route,
             arguments = listOf(
                 navArgument("category"){ defaultValue = "Any" },
+                navArgument("lang"){ defaultValue = "En" },
                 navArgument("amount"){ defaultValue = 1 }
             )
         ) { navBackStackEntry ->
             var category = navBackStackEntry.arguments?.getString("category")
+            var lang = navBackStackEntry.arguments?.getString("lang")
             var amount = navBackStackEntry.arguments?.getInt("amount")
             requireNotNull(category)
             requireNotNull(amount)
-            Pantalla2(category,amount, darkMode, viewModel,scaffoldState,coroutineScope)
+            requireNotNull(lang)
+            Pantalla2(category,lang,amount, darkMode, viewModel,scaffoldState,coroutineScope)
             //ShowJokes()
         }
 
@@ -69,7 +74,8 @@ fun NavigationHost(
             ){
                 //PressedButton(darkMode) { }
                 TitleApp()
-                PressedSppiner(viewModel)
+                //LanguageSelectionSpinner(context = LocalContext.current)
+                PressedSppiner(LocalContext.current, viewModel)
                 PressedButtonError()
                 PressedButtonVersion()
             }
