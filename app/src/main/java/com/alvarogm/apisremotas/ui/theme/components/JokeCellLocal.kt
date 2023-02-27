@@ -21,13 +21,17 @@ import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
 import com.gandiva.neumorphic.shape.RoundedCorner
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun JokeCellLocal(joke: Jokes, viewModel: JokesViewModel) {
-    val scaffoldState = rememberScaffoldState()
-    val snackbarCoroutineScope = rememberCoroutineScope()
+fun JokeCellLocal(
+    joke: Jokes,
+    viewModel: JokesViewModel,
+    scaffoldState: ScaffoldState,
+    coroutineScope: CoroutineScope
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,8 +86,11 @@ fun JokeCellLocal(joke: Jokes, viewModel: JokesViewModel) {
                     IconButton(modifier = Modifier.padding(defaultWidgetPadding),
                         onClick = {
                             viewModel.deleteJoke(joke)
-                            snackbarCoroutineScope.launch{
-                                scaffoldState.snackbarHostState.showSnackbar("Snacks in Compose")
+                            coroutineScope.launch{
+                                scaffoldState.snackbarHostState.showSnackbar(
+                                    message = "Delete joke successfully",
+                                    actionLabel = "Thanks!",
+                                    duration = SnackbarDuration.Short)
                             }
                         }
                     ) {

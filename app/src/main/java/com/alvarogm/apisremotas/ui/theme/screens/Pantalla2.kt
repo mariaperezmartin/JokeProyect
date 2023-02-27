@@ -77,7 +77,7 @@ fun Pantalla2(
                         ) {
                             Text(text = "$amount JOKES - ${category.uppercase()}")
                             (screenStateLocal as JokesScreenStateLocal.SuccessLocal).data.forEach() {
-                                JokeCellLocal(it, viewModel)
+                                JokeCellLocal(it, viewModel,scaffoldState,coroutineScope)
                             }
                         }
                     else -> {}
