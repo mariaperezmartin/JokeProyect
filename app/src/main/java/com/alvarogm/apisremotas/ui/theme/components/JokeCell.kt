@@ -128,28 +128,22 @@ fun JokeCell(
                         Icon(
 
                             modifier = Modifier.size(30.dp),
-                 /*           tint = (
+                         tint = (
 
-                                    *//*    if (isDuplicate && joke.type == "single") {
-                                            Color.Red
-                                        } else {
-                                            Color.Black
-                                        }*//*
-
-                                   *//* if (joke.type == "twopart") {
-                                        if (viewModel.isJokeDuplicate(joke.setup + " " + joke.delivery)) {
+                                    if (joke.type == "twopart") {
+                                        if (joke.isLocal) {
                                             Color.Red
                                         } else {
                                             Color.Black
                                         }
                                     } else {
-                                        if (isDuplicate) {
+                                        if (joke.isLocal) {
                                             Color.Red
                                         } else {
                                             Color.Black
                                         }
-                                    }*//*
-                                    ),*/
+                                    }
+                                    ),
                             painter = painterResource(id =  R.drawable.ic_baseline_emoji_favorite
 
                             ),

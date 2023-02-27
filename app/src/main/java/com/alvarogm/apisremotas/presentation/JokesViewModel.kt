@@ -1,5 +1,6 @@
 package com.alvarogm.apisremotas.presentation;
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
@@ -53,6 +54,21 @@ class JokesViewModel(
         viewModelScope.launch(handler) {
             /*_uiState.value = JokesScreenState.Loading*/
             val jokes = jokesRemoteDatasource.getJoke(category, jokeAmount)
+            Log.d("JokesIsLocal", jokes.toString())
+            /*val localJoke = jokesDatasource.getJokes().collect(){
+                Log.d("JokesIsLocal",it.toString())
+            }*/
+
+            /*jokesDatasource.getJokes().collect(){
+                for (joke in it){
+                    for (jokeRemote in jokes.jokes){
+                        if (joke.equals(jokeRemote)){
+                            jokeRemote.isLocal = true
+                        }
+                    }
+                }
+            }*/
+            Log.d("JokesIsLocal", jokes.toString())
             /*jokesDatasource.getJokes().collect {
                 val filteredList = it.filter { item -> jokes.id == item.id }
                 if(filteredList.isNotEmpty()) {

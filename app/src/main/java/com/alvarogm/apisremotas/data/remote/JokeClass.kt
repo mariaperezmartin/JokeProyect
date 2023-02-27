@@ -38,7 +38,7 @@ data class JokeClass(
     val safe: Boolean,
     val setup: String,
     val type: String,
-    val isLocal: Boolean
+    var isLocal: Boolean
 )
 
 data class Joke(
