@@ -1,15 +1,9 @@
 import android.annotation.SuppressLint
-import android.provider.Settings.Global.getString
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
-import com.alvarogm.apisremotas.R
-import com.alvarogm.apisremotas.TitleWithThemeToggle
+import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 import com.alvarogm.apisremotas.ui.theme.navigation.NavigationHost
@@ -19,9 +13,11 @@ import kotlinx.coroutines.CoroutineScope
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
+
     darkMode: Boolean,
     viewModel: JokesViewModel,
     onThemeToggle: () -> Unit
+
 ) {
    /* var isDarkTheme by remember { mutableStateOf(darkMode) }
     isDarkTheme = darkMode*/
@@ -33,6 +29,10 @@ fun MainScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val openDialog = remember { mutableStateOf(false) }
+
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
 
     val navigationItems = listOf(
         Destinations.Pantalla2,

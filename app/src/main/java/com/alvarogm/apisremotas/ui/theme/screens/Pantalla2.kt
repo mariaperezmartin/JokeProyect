@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun Pantalla2(
     category: String,
+    lang: String,
     amount: Int,
     darkMode: Boolean,
     viewModel: JokesViewModel,
@@ -91,7 +92,7 @@ fun Pantalla2(
                         is JokesScreenState.Error ->
                             ErrorBlock(
                                 message = (screenState as JokesScreenState.Error).message
-                            ) { viewModel.getJokes(category, amount) }
+                            ) { viewModel.getJokes(category, lang,amount) }
                         is JokesScreenState.Success ->
                             Column(
                                 modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -130,7 +131,7 @@ fun Pantalla2(
                         is JokesScreenState.Error ->
                             ErrorBlock(
                                 message = (screenState as JokesScreenState.Error).message
-                            ) { viewModel.getJokes(category, amount) }
+                            ) { viewModel.getJokes(category, lang, amount) }
                         is JokesScreenState.Success ->
                             Column(
                                 modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -152,7 +153,7 @@ fun Pantalla2(
                 if (category == "MisBromas") {
                     viewModel.getAllJokes()
                 } else {
-                    viewModel.getJokesOrOneJoke(category, amount)
+                    viewModel.getJokesOrOneJoke(category, lang, amount)
                    /* if (amount == 1) {
                         viewModel.getOneJoke(category, amount)
                     } else {

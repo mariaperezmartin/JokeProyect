@@ -1,26 +1,35 @@
 package com.alvarogm.apisremotas.ui.theme.screens
 
+import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.edit
+import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.AppTextStyle
 import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
+import kotlinx.coroutines.launch
 
 
 /*
@@ -125,8 +134,20 @@ fun ImageButton(
 }*/
 @Composable
 fun SettingsScreen() {
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+
     Column() {
-        Text(text = "Settings", style = MaterialTheme.typography.h1)
+        Text(
+
+
+            if (savedEmail.value == "Es") {
+                "Ajustes"
+            } else {
+                "Settings"
+            }, style = MaterialTheme.typography.h1
+        )
     }
 }
 
@@ -140,107 +161,33 @@ fun TitleApp() {
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "JOKES",
+            text = "JOKESAPP",
             fontSize = 40.sp,
         )
     }
 }
 
-//Botón que controla apariencia
-/*@Composable
-fun PressedButton(darkMode: Boolean, onThemeToggle: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .height(120.dp),
-    ) {
-        Text(
-            text = "Appearance",
-            fontSize = 25.sp,
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
-        )
-        ImageButton(
-            modifier = Modifier.padding(defaultWidgetPadding),
-            drawableResId = if (darkMode) R.drawable.ic_baseline_light_mode
-            else R.drawable.ic_baseline_dark_mode_24,
-            contentDescription = "Toggle theme",
-            onClick = onThemeToggle
-        )
-    }
-
-}*/
-/*@Composable
-fun TitleWithThemeToggle(title: String, isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = defaultWidgetPadding),
-            text = title,
-            style = AppTextStyle.body1(), maxLines = 1
-        )
-        ImageButton(
-            modifier = Modifier.padding(defaultWidgetPadding),
-            drawableResId = if (isDarkTheme) R.drawable.ic_baseline_light_mode
-            else R.drawable.ic_baseline_dark_mode_24,
-            contentDescription = "Toggle theme",
-            onClick = onThemeToggle
-        )
-    }
-}*/
-
-/*@Composable
-fun ImageButton(
-    modifier: Modifier,
-    @DrawableRes drawableResId: Int,
-    contentDescription: String = "",
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = modifier
-            //.size(48.dp)
-            .height(50.dp)
-            .fillMaxSize()
-            .neu(
-                lightShadowColor = AppColors.lightShadow(),
-                darkShadowColor = AppColors.darkShadow(),
-                shadowElevation = defaultElevation,
-                lightSource = LightSource.LEFT_TOP,
-                //shape = Flat(Oval),
-            ),
-        elevation = 0.dp,
-        shape = RoundedCornerShape(24.dp),
-    ) {
-        Image(
-            modifier = Modifier.clickable(true, onClick = onClick),
-            painter = painterResource(id = drawableResId),
-            contentDescription = contentDescription,
-            contentScale = ContentScale.Inside,
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-        )
-    }
-}*/
-/*@Composable
-fun Button(){
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .height(120.dp)) {
-        Button(onClick = {TitleWithThemeToggle}){
-
-        }
-    }
-}*/
-
 //Spinner de selección lenguaje
 @Composable
-fun PressedSppiner(viewModel: JokesViewModel) {
+fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
     var expanded by remember { mutableStateOf(false) }
     var s by remember { mutableStateOf(viewModel.getMyPreference()) }
     val items = listOf("En", "De", "Es", "Fr")
     val disabledValue = "En"
     var selectedIndex by remember { mutableStateOf(0) }
+
+    val scope = rememberCoroutineScope()
+    // datastore Email
+    val dataStore = StoreUserLanguage(context)
+    // get saved email
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+
+    var language by remember { mutableStateOf("") }
+
+    val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    val selectedLanguage = sharedPreferences.getString("selectedLanguage", "en")
+    // Definimos la variable que guardará el idioma seleccionado
+    var languageSelection by remember { mutableStateOf(selectedLanguage) }
 
     Column(
         modifier = Modifier
@@ -248,10 +195,19 @@ fun PressedSppiner(viewModel: JokesViewModel) {
             .height(100.dp),
     ) {
         Text(
-            text = "Language",
+            if (savedEmail.value == "Es") {
+                "Lenguaje"
+            } else {
+                "Language"
+            } ,
             fontSize = 25.sp,
-            modifier = Modifier.padding( vertical = 7.dp)
+            modifier = Modifier.padding(vertical = 7.dp)
         )
+        /* Text(
+             text = "pruebaaaa"+savedEmail.value!!,
+             color = Color.Black,
+             fontSize = 18.sp
+         )*/
         //Empieza Spinner
         Card(
             modifier = Modifier
@@ -267,10 +223,11 @@ fun PressedSppiner(viewModel: JokesViewModel) {
             shape = RoundedCornerShape(9.dp),
         ) {
             Text(
-                items[selectedIndex],
-                textAlign =TextAlign.Center,
+                //items[selectedIndex],
+                savedEmail.value.toString(),
+                textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize().padding(top=8.dp)
                     //.padding(horizontal = 20.dp, 7.dp)
                     .clickable(onClick = { expanded = true })
             )
@@ -283,6 +240,14 @@ fun PressedSppiner(viewModel: JokesViewModel) {
                     DropdownMenuItem(onClick = {
                         selectedIndex = index
                         expanded = false
+                        /*                 with(sharedPreferences.edit()) {
+                                             putString("selectedLanguage", s)
+                                             apply()
+                                         }*/
+
+                        scope.launch {
+                            dataStore.saveLanguage(s)
+                        }
                     }) {
                         val disabledText = if (s == disabledValue) {
                             " (Disabled)"
@@ -294,6 +259,8 @@ fun PressedSppiner(viewModel: JokesViewModel) {
                 }
             }
         }
+
+
     }
     LaunchedEffect(viewModel) {
         if (!s.equals("")) {
@@ -303,6 +270,7 @@ fun PressedSppiner(viewModel: JokesViewModel) {
 
 }
 
+
 //Botón de errores
 @Preview
 @Composable
@@ -310,31 +278,44 @@ fun PressedButtonError() {
     val emailBody = remember { //propio mensaje del correo
         mutableStateOf(TextFieldValue(""))
     }
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
     Column(
         modifier = Modifier
             .height(120.dp),
     ) {
         Text(
-            text = "Error",
+            if (savedEmail.value == "Es") {
+                "Errores"
+            } else {
+                "Error"
+            },
             fontSize = 25.sp,
-            modifier = Modifier.padding( vertical = 5.dp)
+            modifier = Modifier.padding(vertical = 5.dp)
         )
         var dialogoVisible by rememberSaveable { mutableStateOf(false) }
         Button(
-            onClick = { dialogoVisible = true; emailBody.value=TextFieldValue(" ")}, modifier = Modifier
+            onClick = { dialogoVisible = true; emailBody.value = TextFieldValue(" ") },
+            modifier = Modifier
                 .defaultMinSize(minHeight = 20.dp)
                 .fillMaxWidth()
 
                 .neu(defaultFlatNeuAttrs()),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.surface
-            ), shape = RoundedCornerShape(9.dp)
+            ),
+            shape = RoundedCornerShape(9.dp)
         ) {
             Text(
-                text = "Problems", style = AppTextStyle.button()
+                if (savedEmail.value == "Es") {
+                    "Problemas"
+                } else {
+                    "Problems"
+                }, style = AppTextStyle.button()
             )
         }
-        DialogoAlerta(dialogoVisible, { dialogoVisible = false },emailBody)
+        DialogoAlerta(dialogoVisible, { dialogoVisible = false }, emailBody)
     }
 }
 
@@ -382,6 +363,9 @@ fun DialogoAlerta(
     emailBody: MutableState<TextFieldValue>
 ) {
 
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
 
     val ctx = LocalContext.current
     if (dialogoVisible) {
@@ -389,22 +373,33 @@ fun DialogoAlerta(
             onDismissRequest = {
                 onDismiss()
             },
-            modifier = Modifier.height(280.dp)
-            ,
+            modifier = Modifier.height(280.dp),
             title = {
-                Text(text = "Problems")
+                Text( if (savedEmail.value == "Es") {
+                    "Problemas"
+                } else {
+                    "Problems"
+                })
             },
             text = {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("Write the problem and we will try to solve it")
+                    Text(if (savedEmail.value == "Es") {
+                        "Escribe el problema y lo resolveremos"
+                    } else {
+                        "Write down the problem and we will solve it"
+                    })
                     Spacer(modifier = Modifier.height(20.dp))
                     TextField(
                         value = emailBody.value,
                         onValueChange = { emailBody.value = it },
-                       /* keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),*/
-                        label = { Text("Enter email body") },
+                        /* keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),*/
+                        label = { Text(if (savedEmail.value == "Es") {
+                            "Introduzca el mensaje"
+                        } else {
+                            "Enter email body"
+                        }) },
                         modifier = Modifier
                             /* .width(270.dp)
                             .height(65.dp)*/
@@ -415,7 +410,7 @@ fun DialogoAlerta(
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = Color.Gray,
                             disabledTextColor = Color.Transparent,
-                            backgroundColor =  MaterialTheme.colors.surface,
+                            backgroundColor = MaterialTheme.colors.surface,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
                             disabledIndicatorColor = Color.Transparent
@@ -425,42 +420,57 @@ fun DialogoAlerta(
                     Row() {
 
                         Button(
-                            onClick = {  onDismiss() }, modifier = Modifier
-                                .neu(defaultFlatNeuAttrs())
-                            ,
+                            onClick = { onDismiss() }, modifier = Modifier
+                                .neu(defaultFlatNeuAttrs()),
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = MaterialTheme.colors.surface
                             ), shape = RoundedCornerShape(9.dp)
                         ) {
-                            Text("Cancel")
+                            Text(if (savedEmail.value == "Es") {
+                                "Cancelar"
+                            } else {
+                                "Cancel"
+                            })
                         }
                         Spacer(modifier = Modifier.width(25.dp))
-                        Button(onClick = {
+                        Button(
+                            onClick = {
 
-                            // on below line we are creating
-                            // an intent to send an email
-                            val i = Intent(Intent.ACTION_SEND)
+                                // on below line we are creating
+                                // an intent to send an email
+                                val i = Intent(Intent.ACTION_SEND)
 
-                            // on below line we are passing email address,
-                            // email subject and email body
-                            val emailAddress = arrayOf("soporteappjokes@gmail.com")
-                            i.putExtra(Intent.EXTRA_EMAIL,emailAddress)
-                            i.putExtra(Intent.EXTRA_SUBJECT,"JokesAPP - Reporte Error")//asunto
-                            i.putExtra(Intent.EXTRA_TEXT,emailBody.value.text)
+                                // on below line we are passing email address,
+                                // email subject and email body
+                                val emailAddress = arrayOf("soporteappjokes@gmail.com")
+                                i.putExtra(Intent.EXTRA_EMAIL, emailAddress)
+                                i.putExtra(Intent.EXTRA_SUBJECT, "JokesAPP - Reporte Error")//asunto
+                                i.putExtra(Intent.EXTRA_TEXT, emailBody.value.text)
 
-                            // on below line we are
-                            // setting type of intent
-                            i.setType("message/rfc822")
+                                // on below line we are
+                                // setting type of intent
+                                i.setType("message/rfc822")
 
-                            // on the below line we are starting our activity to open email application.
-                            ctx.startActivity(Intent.createChooser(i,"Choose an Email client : "))
-                           // onDismiss() //Dependiendo de como se vea, se pone o se quita el Dismiss
-9
-                        },colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.surface),modifier = Modifier
-                            .neu(defaultFlatNeuAttrs())) {
+                                // on the below line we are starting our activity to open email application.
+                                ctx.startActivity(
+                                    Intent.createChooser(
+                                        i,
+                                        "Choose an Email client : "
+                                    )
+                                )
+                                // onDismiss() //Dependiendo de como se vea, se pone o se quita el Dismiss
+
+                            }, colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.surface
+                            ), modifier = Modifier
+                                .neu(defaultFlatNeuAttrs())
+                        ) {
                             // on the below line creating a text for our button.
-                            Text("Send")
+                            Text(if (savedEmail.value == "Es") {
+                                "Enviar"
+                            } else {
+                                "Send"
+                            })
                         }
                     }
 
@@ -478,22 +488,38 @@ fun DialogoAlertaVersion(
     dialogoVisible: Boolean,
     onDismiss: () -> Unit,
 ) {
+
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
     if (dialogoVisible) {
         AlertDialog(
             onDismissRequest = {
                 onDismiss()
             },
             title = {
-                Text(text = "Trabajo Realizado por:")
+                Text(if (savedEmail.value == "Es") {
+                    "Trabajo realizado por:"
+                } else {
+                    "Work done by:"
+                })
             },
             text = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("Álvaro Gómez Méndez\nFelipe Alejandro Borjas de los Dolores\nMaría Esperanza Pérez Martín")
                     Spacer(modifier = Modifier.height(20.dp))
-                    Button(onClick = {onDismiss()},colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.surface),modifier = Modifier
-                        .neu(defaultFlatNeuAttrs()).fillMaxWidth()) {
-                        Text("Great!!")
+                    Button(
+                        onClick = { onDismiss() }, colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.surface
+                        ), modifier = Modifier
+                            .neu(defaultFlatNeuAttrs())
+                            .fillMaxWidth()
+                    ) {
+                        Text(if (savedEmail.value == "Es") {
+                            "Genial!!"
+                        } else {
+                            "Great!!"
+                        })
                     }
                 }
             },
@@ -503,61 +529,3 @@ fun DialogoAlertaVersion(
         )
     }
 }
-
-/*
-@Composable
-fun DialogoAlertabn(dialogoVisible: Boolean) {
-    Column {
-        var dialogoVisible by remember { mutableStateOf(true) }
-        if (dialogoVisible) {
-            AlertDialog(
-                onDismissRequest = {
-                    dialogoVisible = false
-                },
-                title = {
-                    Text(text = "Problems")
-                },
-                text = {
-                    Text("Write the problem and we will try to solve it")
-                },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            dialogoVisible = false
-                        }) {
-                        Text("Send")
-                    }
-                },
-                dismissButton = {
-                    Button(
-                        onClick = {
-                            dialogoVisible = false
-                        }) {
-                        Text("Cancel")
-                    }
-                }
-            )
-        }
-
-    }
-}
-
-@Composable
-fun MyDialog(
-    show: Boolean,
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit
-) {
-    if (show) {
-        */
-/*AlertDialog(onDismiss ={onDismiss},
-
-            confirmButton={
-                TextButton(onClick = {onConfirm}) {
-                    Text(text = "ConfirmButton")
-                }
-            },
-        )*//*
-
-    }
-}*/
