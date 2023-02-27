@@ -55,11 +55,11 @@ class JokesViewModel(
             /*_uiState.value = JokesScreenState.Loading*/
             val jokes = jokesRemoteDatasource.getJoke(category,lang, jokeAmount)
             Log.d("JokesIsLocal", jokes.toString())
-            /*val localJoke = jokesDatasource.getJokes().collect(){
+            val localJoke = jokesDatasource.getJokes().collect(){
                 Log.d("JokesIsLocal",it.toString())
-            }*/
+            }
 
-            /*jokesDatasource.getJokes().collect(){
+            jokesDatasource.getJokes().collect(){
                 for (joke in it){
                     for (jokeRemote in jokes.jokes){
                         if (joke.equals(jokeRemote)){
@@ -67,29 +67,29 @@ class JokesViewModel(
                         }
                     }
                 }
-            }*/
+            }
             Log.d("JokesIsLocal", jokes.toString())
-            /*jokesDatasource.getJokes().collect {
+            jokesDatasource.getJokes().collect {
                 val filteredList = it.filter { item -> jokes.id == item.id }
                 if(filteredList.isNotEmpty()) {
 
                 }
-            }*/
-            /*jokesDatasource.getJokes().collect {
+            }
+            jokesDatasource.getJokes().collect {
                 val filteredList = it.filter { item -> jokes.id == item.id }
                 if(filteredList.isNotEmpty()) {
 
                 }
-            }*/
+            }
 
-            /*jokesDatasource.getJokes().collect {
+            jokesDatasource.getJokes().collect {
                 val filteredList = it.map { item -> JokeClass(
 
                 ) }
                     if(filteredList.isNotEmpty()) {
 
                 }
-                }*/
+                }
             //jokesLocal
             _uiState.value = JokesScreenState.Success(jokes.jokes)
         }
