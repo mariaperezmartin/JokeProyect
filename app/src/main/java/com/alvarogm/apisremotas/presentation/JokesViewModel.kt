@@ -53,7 +53,7 @@ class JokesViewModel(
     fun getJokes(category: String,lang: String, jokeAmount: Int) {
         viewModelScope.launch(handler) {
             /*_uiState.value = JokesScreenState.Loading*/
-            val jokes = jokesRemoteDatasource.getJoke(category, jokeAmount)
+            val jokes = jokesRemoteDatasource.getJoke(category,lang, jokeAmount)
             Log.d("JokesIsLocal", jokes.toString())
             /*val localJoke = jokesDatasource.getJokes().collect(){
                 Log.d("JokesIsLocal",it.toString())
