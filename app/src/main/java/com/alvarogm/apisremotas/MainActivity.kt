@@ -12,8 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
 import com.alvarogm.apisremotas.data.remote.RetrofitBuilder
 import com.alvarogm.apisremotas.presentation.JokesViewModel
@@ -28,12 +26,14 @@ import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
+import com.mathroda.snackie.rememberSnackieState
 
 class MainActivity : ComponentActivity() {
     private val apiDatasource = JokeRemoteDatasource(RetrofitBuilder.apiService)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val dbDatasource = JokesDatasource(applicationContext)
+
         val settingsDatasource = SettingsDatasource(applicationContext)
         val viewModel = JokesViewModel(apiDatasource, dbDatasource, settingsDatasource)
         setContent {
@@ -45,6 +45,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
+
                     MainScreen(
 
                         isDarkTheme,

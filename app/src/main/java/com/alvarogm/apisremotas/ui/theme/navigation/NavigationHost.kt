@@ -12,18 +12,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations.*
 import com.alvarogm.apisremotas.ui.theme.screens.*
+import com.mathroda.snackie.SnackieState
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun NavigationHost(
+
 
     navController: NavHostController,
     darkMode: Boolean,
@@ -34,6 +36,9 @@ fun NavigationHost(
 ) {
     var isDarkTheme by remember { mutableStateOf(darkMode) }
     isDarkTheme = darkMode
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
 
     NavHost(navController = navController, startDestination = Pantalla1.route) {
 
@@ -48,7 +53,7 @@ fun NavigationHost(
             Pantalla2.route,
             arguments = listOf(
                 navArgument("category"){ defaultValue = "Any" },
-                navArgument("lang"){ defaultValue = "En" },
+                navArgument("lang"){ defaultValue = savedEmail.value.toString() },
                 navArgument("amount"){ defaultValue = 1 }
             )
         ) { navBackStackEntry ->

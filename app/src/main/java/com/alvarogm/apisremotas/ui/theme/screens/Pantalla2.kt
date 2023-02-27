@@ -17,6 +17,7 @@ import com.alvarogm.apisremotas.presentation.*
 import com.alvarogm.apisremotas.ui.theme.components.ErrorBlock
 import com.alvarogm.apisremotas.ui.theme.components.JokeCell
 import com.alvarogm.apisremotas.ui.theme.components.JokeCellLocal
+import com.mathroda.snackie.SnackieState
 import kotlinx.coroutines.CoroutineScope
 
 
@@ -24,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun Pantalla2(
+
     category: String,
     lang: String,
     amount: Int,

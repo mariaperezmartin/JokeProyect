@@ -2,18 +2,19 @@ import android.annotation.SuppressLint
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.compose.rememberNavController
 import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 import com.alvarogm.apisremotas.ui.theme.navigation.NavigationHost
 import com.alvarogm.apisremotas.ui.theme.screens.BottomNavigationBar
+import com.mathroda.snackie.SnackieState
 import kotlinx.coroutines.CoroutineScope
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
+
 
     darkMode: Boolean,
     viewModel: JokesViewModel,

@@ -3,20 +3,27 @@ package com.alvarogm.apisremotas.ui.theme.components
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.alvarogm.apisremotas.R
 import com.alvarogm.apisremotas.data.remote.JokeClass
@@ -30,6 +37,7 @@ import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
 import com.gandiva.neumorphic.shape.RoundedCorner
+import com.mathroda.snackie.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -43,18 +51,35 @@ fun JokeCell(
     coroutineScope: CoroutineScope
 
 ) {
-    // val isDuplicate by rememberFlowWithLifecycle(viewModel.isJokeDuplicate(joke.joke)).collectAsState(initial = false)
+    val success = rememberSnackieState()
+    val error = rememberSnackieState()
+    val custom = rememberSnackieState()
 
+    SnackieSuccess(state = success, containerColor = BrightGreen)
+    SnackieError(state = error)
+/*    SnackieCustom(
+        state = custom,
+        position = SnackiePosition.Float,
+        duration = 3000L,
+        icon = Icons.Default.Star,
+        containerColor = Color.Gray,
+        contentColor = Color.White,
+        enterAnimation = fadeIn(),
+        exitAnimation = fadeOut(),
+        verticalPadding = 12.dp,
+        horizontalPadding = 12.dp
+    )*/
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp,0.dp,0.dp,10.dp)
+            //.padding(10.dp,0.dp,0.dp,10.dp)
+            .padding(0.dp)
             .neu(
                 lightShadowColor = AppColors.lightShadow(),
                 darkShadowColor = AppColors.darkShadow(),
                 shadowElevation = defaultElevation,
-                shape = Flat(RoundedCorner(24.dp)),
+                shape = Flat(RoundedCorner(20.dp)),
                 lightSource = LightSource.LEFT_TOP,
             ),
         elevation = 0.dp,
@@ -65,31 +90,39 @@ fun JokeCell(
             Column(
                 modifier = Modifier
                     .weight(3f)
-                    .padding(start = 17.dp, top = 0.dp, end = 0.dp, bottom = 0.dp)
+                    .padding(18.dp)
             ) {
 
                 if (joke.type == "twopart") {
                     Text(
                         text = joke.lang + " - " + joke.category,
-                        style = TextStyle(color = Color(0xFF87CEFA))
+                        style = TextStyle(color = Color(0xFF1393E2))
                     )
                     Text(text = joke.setup)//pregunta
-                    Text(text = joke.delivery, style = TextStyle(color = Color.Red))//respuesta
+                    Text(text = joke.delivery, style = TextStyle(color = Color.Red),fontSize = 19.sp)//respuesta
 
                 } else {
                     Text(
                         text = joke.lang + " - " + joke.category,
-                        style = TextStyle(color = Color(0xFF87CEFA))
+                        style = TextStyle(color = Color(0xFF1393E2))
                     )
                     Text(text = joke.joke)
                 }
-
-                /*  Text(text = joke.category)
-                    Text(text = joke.lang, style = TextStyle(color = Color.LightGray))*/
-                //Text(text = joke.toString(), fontWeight = FontWeight.Bold)
-                //Text(text = joke.setup.toString(), fontWeight = FontWeight.Bold)
             }
-            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+        /*    SnackieError(state = error)
+            SnackieCustom(
+                state = custom,
+                position = SnackiePosition.Float,
+                duration = 3000L,
+                icon = Icons.Default.Star,
+                containerColor = Color.Gray,
+                contentColor = Color.White,
+                enterAnimation = fadeIn(),
+                exitAnimation = fadeOut(),
+                verticalPadding = 12.dp,
+                horizontalPadding = 12.dp
+            )*/
+            Column(modifier = Modifier.align(Alignment.CenterVertically).padding(0.dp,0.dp,10.dp,0.dp)) {
                 Card(
                     modifier = Modifier
                         .size(48.dp)
@@ -130,44 +163,32 @@ fun JokeCell(
                         }
                     }
 
+
+
                     IconButton(
                         modifier = Modifier.padding(0.dp),
 
                         onClick = {
                             if (joke.type == "twopart") {
                                 if (isJokeInDatabase.value) {
-                                    coroutineScope.launch {
-                                        scaffoldState.snackbarHostState.showSnackbar(
-                                            message = "La broma ya esta guardada",
-                                            duration = SnackbarDuration.Short
-                                        )
-                                    }
+                                    run { error.addMessage("Broma ya guardada") }
                                 } else {
                                     viewModel.saveJoke(joke.setup + " " + joke.delivery)
-                                    coroutineScope.launch {
+                                    run { success.addMessage("Broma guardada correctamente") }
+                                  /*  coroutineScope.launch {
                                         scaffoldState.snackbarHostState.showSnackbar(
                                             message = "Broma guardada correctamente",
                                             duration = SnackbarDuration.Short
                                         )
-                                    }
+                                    }*/
                                 }
 
                             } else {
                                 if (isJokeInDatabaseSingle.value) {
-                                    coroutineScope.launch {
-                                        scaffoldState.snackbarHostState.showSnackbar(
-                                            message = "La broma ya esta guardada",
-                                            duration = SnackbarDuration.Short
-                                        )
-                                    }
+                                    run { error.addMessage("Broma ya guardada") }
                                 } else {
                                     viewModel.saveJoke(joke.joke)
-                                    coroutineScope.launch {
-                                        scaffoldState.snackbarHostState.showSnackbar(
-                                            message = "Broma guardada correctamente",
-                                            duration = SnackbarDuration.Short
-                                        )
-                                    }
+                                    run { success.addMessage("Broma guardada correctamente") }
                                 }
 
                             }
@@ -234,7 +255,6 @@ fun ImageButton(
 fun SnackbarScreen() {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-
         FloatingActionButton(
             onClick = {
                 //Important part here
@@ -245,7 +265,6 @@ fun SnackbarScreen() {
             },
             content = { Icon(imageVector = Icons.Default.Add, contentDescription = "") }
         )
-
     SnackbarHost(hostState = snackbarHostState)
 }*/
 
