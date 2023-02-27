@@ -114,8 +114,9 @@ fun JokeCell(
 
                             coroutineScope.launch {
                                 scaffoldState.snackbarHostState.showSnackbar(
-                                    message = "Broma guardada correctamente",
-                                    duration = SnackbarDuration.Short
+                                    message = "Joke saved successfully",
+                                    actionLabel= "Thanks!",
+                                    duration = SnackbarDuration.Short,
                                 )
                             }
                         }
