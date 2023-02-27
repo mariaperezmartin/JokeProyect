@@ -7,6 +7,7 @@ import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
 import com.alvarogm.apisremotas.data.local.database.Jokes
 import com.alvarogm.apisremotas.data.local.database.JokesDatasource
 import com.alvarogm.apisremotas.data.local.preferences.SettingsDatasource
+import com.alvarogm.apisremotas.data.remote.JokeClass
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -48,6 +49,15 @@ class JokesViewModel(
             getJokes(category, lang, 2)
         }
     }
+
+
+    suspend fun isJokeInLocalDatabase(jokeName: String): Boolean {
+        val jokesList = jokesDatasource.getJokes().first()//lista local
+        return jokesList.any { it.joke == jokeName }
+    }
+
+
+
 
 
     fun getJokes(category: String,lang: String, jokeAmount: Int) {

@@ -1,7 +1,6 @@
 package com.alvarogm.apisremotas
 
 import MainScreen
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,16 +10,16 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
 import com.alvarogm.apisremotas.data.remote.RetrofitBuilder
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.ApisRemotasTheme
 import com.alvarogm.apisremotas.data.local.database.JokesDatasource
 import com.alvarogm.apisremotas.data.local.preferences.SettingsDatasource
-import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 /*import com.alvarogm.apisremotas.ui.theme.screens.ImageButton*/
