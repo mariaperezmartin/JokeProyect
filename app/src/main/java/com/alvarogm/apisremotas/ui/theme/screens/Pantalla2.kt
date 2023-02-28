@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.presentation.*
 import com.alvarogm.apisremotas.ui.theme.components.ErrorBlock
 import com.alvarogm.apisremotas.ui.theme.components.JokeCell
@@ -44,6 +45,10 @@ fun Pantalla2(
 
     val openDialog = remember { mutableStateOf(false) }
 
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+
+
     SnackbarHost(hostState = snackbarHostState)
 
     Scaffold(
@@ -69,7 +74,13 @@ fun Pantalla2(
                             verticalArrangement = Arrangement.spacedBy(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(text = "EROROROROROROROROO")
+                            Text(when (savedEmail.value.toString()) {
+                                "Es" -> "Error"
+                                "En" -> "Error"
+                                "De" -> "Fehler"
+                                "Fr" -> "Erreur"
+                                else -> {"Error"}
+                            })
                         }
                     is JokesScreenStateLocal.SuccessLocal ->
                         Column(

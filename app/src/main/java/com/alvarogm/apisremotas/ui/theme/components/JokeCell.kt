@@ -20,12 +20,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.alvarogm.apisremotas.R
+import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.data.remote.JokeClass
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
@@ -54,6 +56,11 @@ fun JokeCell(
     val success = rememberSnackieState()
     val error = rememberSnackieState()
     val custom = rememberSnackieState()
+
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+
 
     SnackieSuccess(state = success, containerColor = BrightGreen)
     SnackieError(state = error)
@@ -171,10 +178,24 @@ fun JokeCell(
                         onClick = {
                             if (joke.type == "twopart") {
                                 if (isJokeInDatabase.value) {
-                                    run { error.addMessage("Broma ya guardada") }
+                                    run { error.addMessage(
+                                        when (savedEmail.value.toString()) {
+                                            "Es" -> "Broma ya guardada"
+                                            "En" -> "Joke already recorded"
+                                            "De" -> "Witz bereits aufgenommen"
+                                            "Fr" -> "Blague enregistrée avec succès"
+                                            else -> {"Joke already recorded"}
+                                        }) }
                                 } else {
                                     viewModel.saveJoke(joke.setup + " " + joke.delivery)
-                                    run { success.addMessage("Broma guardada correctamente") }
+                                    run { success.addMessage(
+                                        when (savedEmail.value.toString()) {
+                                            "Es" -> "Broma guardada correctamente"
+                                            "En" -> "Successfully recorded joke"
+                                            "De" -> "Witz erfolgreich aufgenommen"
+                                            "Fr" -> "Blague déjà enregistrée"
+                                            else -> {"Successfully recorded joke"}
+                                        }) }
                                   /*  coroutineScope.launch {
                                         scaffoldState.snackbarHostState.showSnackbar(
                                             message = "Broma guardada correctamente",
@@ -185,10 +206,24 @@ fun JokeCell(
 
                             } else {
                                 if (isJokeInDatabaseSingle.value) {
-                                    run { error.addMessage("Broma ya guardada") }
+                                    run { error.addMessage(when (savedEmail.value.toString()) {
+                                        "Es" -> "Broma ya guardada"
+                                        "En" -> "Joke already recorded"
+                                        "De" -> "Witz bereits aufgenommen"
+                                        "Fr" -> "Blague enregistrée avec succès"
+                                        else -> {"Joke already recorded"}
+                                    }) }
                                 } else {
                                     viewModel.saveJoke(joke.joke)
-                                    run { success.addMessage("Broma guardada correctamente") }
+                                    run { success.addMessage(
+                                        when (savedEmail.value.toString()) {
+                                            "Es" -> "Broma guardada correctamente"
+                                            "En" -> "Successfully recorded joke"
+                                            "De" -> "Witz erfolgreich aufgenommen"
+                                            "Fr" -> "Blague déjà enregistrée"
+                                            else -> {"Successfully recorded joke"}
+                                        }
+                                    ) }
                                 }
 
                             }

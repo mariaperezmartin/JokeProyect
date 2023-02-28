@@ -156,12 +156,22 @@ fun SettingsScreen() {
 @Preview(showBackground = true, widthDp = 200, heightDp = 100)
 @Composable
 fun TitleApp() {
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+
     Row(
         modifier = Modifier.padding(vertical = 5.dp),
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "JOKESAPP",
+            when (savedEmail.value.toString()) {
+                "Es" -> "APP DE CHISTES"
+                "En" -> "JOKES APP"
+                "De" -> "WITZE-APP"
+                "Fr" -> "APP DE BLAGUES"
+                else -> {"JOKES APP"}
+            },
             fontSize = 40.sp,
         )
     }
@@ -195,11 +205,13 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
             .height(100.dp),
     ) {
         Text(
-            if (savedEmail.value == "Es") {
-                "Lenguaje"
-            } else {
-                "Language"
-            } ,
+            when (savedEmail.value.toString()) {
+                "Es" -> "Lenguaje"
+                "En" -> "Language"
+                "De" -> "Sprache"
+                "Fr" -> "Langue"
+                else -> {"Language"}
+            },
             fontSize = 25.sp,
             modifier = Modifier.padding(vertical = 7.dp)
         )
@@ -250,7 +262,7 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
                         }
                     }) {
                         val disabledText = if (s == disabledValue) {
-                            " (Disabled)"
+                            " "
                         } else {
                             ""
                         }
@@ -286,10 +298,12 @@ fun PressedButtonError() {
             .height(120.dp),
     ) {
         Text(
-            if (savedEmail.value == "Es") {
-                "Errores"
-            } else {
-                "Error"
+            when (savedEmail.value.toString()) {
+                "Es" -> "Errores"
+                "En" -> "Errors"
+                "De" -> "Fehler"
+                "Fr" -> "Erreurs"
+                else -> {"Errors"}
             },
             fontSize = 25.sp,
             modifier = Modifier.padding(vertical = 5.dp)
@@ -302,17 +316,18 @@ fun PressedButtonError() {
                 .fillMaxWidth()
 
                 .neu(defaultFlatNeuAttrs()),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.surface
-            ),
+            colors = ButtonDefaults.buttonColors( backgroundColor = MaterialTheme.colors.surface),
             shape = RoundedCornerShape(9.dp)
         ) {
             Text(
-                if (savedEmail.value == "Es") {
-                    "Problemas"
-                } else {
-                    "Problems"
-                }, style = AppTextStyle.button()
+                when (savedEmail.value.toString()) {
+                    "Es" -> "Problemas"
+                    "En" -> "Problems"
+                    "De" -> "Probleme"
+                    "Fr" -> "Questions"
+                    else -> {"Problems"}
+                },
+                style = AppTextStyle.button()
             )
         }
         DialogoAlerta(dialogoVisible, { dialogoVisible = false }, emailBody)
@@ -323,12 +338,23 @@ fun PressedButtonError() {
 @Preview
 @Composable
 fun PressedButtonVersion() {
+
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+
     Column(
         modifier = Modifier
             .height(150.dp),
     ) {
         Text(
-            text = "Version",
+            when (savedEmail.value.toString()) {
+                "Es" -> "Versión"
+                "En" -> "Version"
+                "De" -> "Ausführung"
+                "Fr" -> "Version"
+                else -> {"Version"}
+            },
             fontSize = 25.sp,
             modifier = Modifier.padding(vertical = 5.dp)
         )
@@ -375,31 +401,43 @@ fun DialogoAlerta(
             },
             modifier = Modifier.height(280.dp),
             title = {
-                Text( if (savedEmail.value == "Es") {
-                    "Problemas"
-                } else {
-                    "Problems"
-                })
+                Text(
+                    when (savedEmail.value.toString()) {
+                        "Es" -> "Problemas"
+                        "En" -> "Problems"
+                        "De" -> "Probleme"
+                        "Fr" -> "Questions"
+                        else -> {"Problems"}
+                    }
+                )
             },
             text = {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(if (savedEmail.value == "Es") {
-                        "Escribe el problema y lo resolveremos"
-                    } else {
-                        "Write down the problem and we will solve it"
-                    })
+                    Text(
+                        when (savedEmail.value.toString()) {
+                            "Es" -> "Escribe el problema y lo resolveremos"
+                            "En" -> "Write down the problem and we will solve it"
+                            "De" -> "Schreiben Sie das Problem auf und wir werden es lösen"
+                            "Fr" -> "Écrivez le problème et nous le résoudrons"
+                            else -> {"Write down the problem and we will solve it"}
+                        })
                     Spacer(modifier = Modifier.height(20.dp))
                     TextField(
                         value = emailBody.value,
                         onValueChange = { emailBody.value = it },
                         /* keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),*/
-                        label = { Text(if (savedEmail.value == "Es") {
-                            "Introduzca el mensaje"
-                        } else {
-                            "Enter email body"
-                        }) },
+                        label = {
+                            Text(
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "Introduzca el mensaje"
+                                "En" -> "Enter email body"
+                                "De" -> "E-Mail-Text eingeben"
+                                "Fr" -> "Entrer le message"
+                                else -> {"Enter email body"}
+                            }
+                        ) },
                         modifier = Modifier
                             /* .width(270.dp)
                             .height(65.dp)*/
@@ -426,11 +464,15 @@ fun DialogoAlerta(
                                 backgroundColor = MaterialTheme.colors.surface
                             ), shape = RoundedCornerShape(9.dp)
                         ) {
-                            Text(if (savedEmail.value == "Es") {
-                                "Cancelar"
-                            } else {
-                                "Cancel"
-                            })
+                            Text(
+                                when (savedEmail.value.toString()) {
+                                    "Es" -> "Cancelar"
+                                    "En" -> "Cancel"
+                                    "De" -> "Stornieren"
+                                    "Fr" -> "Annuler"
+                                    else -> {"Cancel"}
+                                }
+                            )
                         }
                         Spacer(modifier = Modifier.width(25.dp))
                         Button(
@@ -466,11 +508,15 @@ fun DialogoAlerta(
                                 .neu(defaultFlatNeuAttrs())
                         ) {
                             // on the below line creating a text for our button.
-                            Text(if (savedEmail.value == "Es") {
-                                "Enviar"
-                            } else {
-                                "Send"
-                            })
+                            Text(
+                                when (savedEmail.value.toString()) {
+                                    "Es" -> "Enviar"
+                                    "En" -> "Send"
+                                    "De" -> "Schicken"
+                                    "Fr" -> "Envoyer"
+                                    else -> {"Send"}
+                                }
+                            )
                         }
                     }
 
@@ -498,11 +544,15 @@ fun DialogoAlertaVersion(
                 onDismiss()
             },
             title = {
-                Text(if (savedEmail.value == "Es") {
-                    "Trabajo realizado por:"
-                } else {
-                    "Work done by:"
-                })
+                Text(
+                    when (savedEmail.value.toString()) {
+                        "Es" -> "Trabajo realizado por:"
+                        "En" -> "Work done by:"
+                        "De" -> "Arbeit erledigt bis:"
+                        "Fr" -> "Travail effectué par:"
+                        else -> {"Work done by:"}
+                    }
+                )
             },
             text = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -515,11 +565,15 @@ fun DialogoAlertaVersion(
                             .neu(defaultFlatNeuAttrs())
                             .fillMaxWidth()
                     ) {
-                        Text(if (savedEmail.value == "Es") {
-                            "Genial!!"
-                        } else {
-                            "Great!!"
-                        })
+                        Text(
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "¡ Genial !"
+                                "En" -> "Great !"
+                                "De" -> "Großartig !"
+                                "Fr" -> "Brillant !"
+                                else -> {"Great !!"}
+                            }
+                        )
                     }
                 }
             },

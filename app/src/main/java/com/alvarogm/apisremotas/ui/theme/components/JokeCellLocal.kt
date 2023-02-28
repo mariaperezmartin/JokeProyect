@@ -4,13 +4,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.alvarogm.apisremotas.R
 import com.alvarogm.apisremotas.data.local.database.Jokes
+import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
@@ -32,6 +35,10 @@ fun JokeCellLocal(
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope
 ) {
+    val mContext = LocalContext.current
+    val dataStore = StoreUserLanguage(mContext)
+    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -88,8 +95,20 @@ fun JokeCellLocal(
                             viewModel.deleteJoke(joke)
                             coroutineScope.launch{
                                 scaffoldState.snackbarHostState.showSnackbar(
-                                    message = "Delete joke successfully",
-                                    actionLabel = "Thanks!",
+                                    message = when (savedEmail.value.toString()) {
+                                        "Es" -> "Broma borrada con éxito"
+                                        "En" -> "Delete joke successfully"
+                                        "De" -> "Witz erfolgreich löschen"
+                                        "Fr" -> "Blague supprimée avec succès"
+                                        else -> {"Delete joke successfully"}
+                                    },
+                                    actionLabel = when (savedEmail.value.toString()) {
+                                        "Es" -> "¡ Gracias !"
+                                        "En" -> "Thanks!"
+                                        "De" -> "Danke!"
+                                        "Fr" -> "Merci !"
+                                        else -> {"Thanks!"}
+                                    },
                                     duration = SnackbarDuration.Short)
                             }
                         }

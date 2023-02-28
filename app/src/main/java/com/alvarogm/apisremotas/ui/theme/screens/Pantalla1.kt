@@ -162,10 +162,14 @@ fun Pantalla1(
                     ) {
 
                         Text(
-                            if (savedEmail.value == "Es") {
-                                "PROGRAMACION"
-                            } else {
-                                "PROGRAMMING"
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "PROGRAMACIÓN"
+                                "En" -> "PROGRAMMING"
+                                //"De" -> "PROGRAMMIERUNG"
+                                //"Fr" -> "PROGRAMMATION"
+                                "De" -> "PROGRAMM"
+                                "Fr" -> "PROGRAMM"
+                                else -> {"PROGRAMMING"}
                             }
                         )
                     }
@@ -209,10 +213,12 @@ fun Pantalla1(
 
 
                         Text(
-                            if (savedEmail.value == "Es") {
-                                "NAVIDAD"
-                            } else {
-                                "CHRISTMAS"
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "NAVIDAD"
+                                "En" -> "CHRISTMAS"
+                                "De" -> "WEIHNACHTEN"
+                                "Fr" -> "NOËL"
+                                else -> {"CHRISTMAS"}
                             }
                         )
                     }
@@ -257,10 +263,12 @@ fun Pantalla1(
 
 
                         Text(
-                            if (savedEmail.value == "Es") {
-                                "ESPELUZNANTE"
-                            } else {
-                                "SPOOKY"
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "ESPELUZNANTE"
+                                "En" -> "SPOOKY"
+                                "De" -> "GESPENSTISCH"
+                                "Fr" -> "EFFRAYANT"
+                                else -> {"SPOOKY"}
                             }
                         )
                     }
@@ -306,10 +314,12 @@ fun Pantalla1(
 
 
                         Text(
-                            if (savedEmail.value == "Es") {
-                                "MIS BROMAS"
-                            } else {
-                                "MY JOKES"
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "MIS BROMAS"
+                                "En" -> "MY JOKES"
+                                "De" -> "MEINE WITZE"
+                                "Fr" -> "MES BLAGUES"
+                                else -> {"MY JOKES"}
                             }
                         )
                     }
@@ -353,10 +363,12 @@ fun Pantalla1(
 
 
                         Text(
-                            if (savedEmail.value == "Es") {
-                                "Varios"
-                            } else {
-                                "MISC"
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "Varios"
+                                "En" -> "MISC"
+                                "De" -> "VERSCHIEDENES"
+                                "Fr" -> "Plusieurs"
+                                else -> {"MISC"}
                             }
                         )
                     }
@@ -387,10 +399,12 @@ fun Pantalla1(
 
 
                         Text(
-                            if (savedEmail.value == "Es") {
-                                "OSCUROS"
-                            } else {
-                                "DARK"
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "OSCUROS"
+                                "En" -> "DARK"
+                                "De" -> "DUNKEL"
+                                "Fr" -> "SOMBRE"
+                                else -> {"DARK"}
                             }
                         )
                     }
@@ -432,10 +446,12 @@ fun Pantalla1(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            if (savedEmail.value == "Es") {
-                                "JU. PALABRAS"
-                            } else {
-                                "PUN"
+                            when (savedEmail.value.toString()) {
+                                "Es" -> "OSCUROS"
+                                "En" -> "PUN"
+                                "De" -> "WORTSPIEL"
+                                "Fr" -> "JEU DE MOTS"
+                                else -> {"PUN"}
                             }
                         )
                     }
