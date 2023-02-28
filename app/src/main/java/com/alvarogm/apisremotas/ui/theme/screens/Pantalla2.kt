@@ -20,7 +20,24 @@ import com.alvarogm.apisremotas.ui.theme.components.JokeCell
 import com.alvarogm.apisremotas.ui.theme.components.JokeCellLocal
 import com.mathroda.snackie.SnackieState
 import kotlinx.coroutines.CoroutineScope
-
+fun getErrorMessage(language: String): String {
+    return when (language) {
+        "Es" -> "Ha ocurrido un error, revise su conexión a internet o inténtelo de nuevo más tarde"
+        "En" -> "An error has occurred, check your internet connection or try again later"
+        "De" -> "Es ist ein Fehler aufgetreten, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später noch einmal"
+        "Fr" -> "Une erreur s'est produite, veuillez vérifier votre connexion Internet ou réessayer plus tard"
+        else -> "An error has occurred, check your internet connection or try again later" // Valor por defecto si no se reconoce el idioma
+    }
+}
+fun getErrorMessageLocal(language: String): String {
+    return when (language) {
+        "Es" -> "No se ha encontrado bromas guardadas"
+        "En" -> "No saved jokes found"
+        "De" -> "Keine gespeicherten Witze gefunden"
+        "Fr" -> "Aucune blague stockée n'a été trouvée"
+        else -> "An error has occurred, check your internet connection or try again later" // Valor por defecto si no se reconoce el idioma
+    }
+}
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -48,7 +65,6 @@ fun Pantalla2(
     val dataStore = StoreUserLanguage(mContext)
     val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
 
-
     SnackbarHost(hostState = snackbarHostState)
 
     Scaffold(
@@ -69,7 +85,10 @@ fun Pantalla2(
                         )
                     )
                     is JokesScreenStateLocal.NoResultsLocal ->
-                        Column(
+                        ErrorBlock(
+                            message = getErrorMessageLocal(savedEmail.value.toString())
+                        ) { viewModel.getJokes(category, lang,amount) }
+/*                        Column(
                             modifier = Modifier.verticalScroll(rememberScrollState()),
                             verticalArrangement = Arrangement.spacedBy(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -81,7 +100,7 @@ fun Pantalla2(
                                 "Fr" -> "Erreur"
                                 else -> {"Error"}
                             })
-                        }
+                        }*/
                     is JokesScreenStateLocal.SuccessLocal ->
                         Column(
                             modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -105,7 +124,7 @@ fun Pantalla2(
                         )
                         is JokesScreenState.Error ->
                             ErrorBlock(
-                                message = (screenState as JokesScreenState.Error).message
+                                message = getErrorMessage(savedEmail.value.toString())
                             ) { viewModel.getJokes(category, lang,amount) }
                         is JokesScreenState.Success ->
                             Column(
@@ -114,23 +133,6 @@ fun Pantalla2(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(text = "1 JOKE - ${category.uppercase()}")
-                             /*   val joke = (screenState as JokesScreenState.Success).jokes[0]
-                                JokeCell(joke, viewModel, scaffoldState, coroutineScope)
-*/
-                               /* (screenState as JokesScreenState.Success).jokes.forEach() {
-                                    JokeCell(it, viewModel, scaffoldState,coroutineScope)
-                                }*/
-                               /* JokeCell(
-                                    (screenState as JokesScreenState.Success).jokes[0],
-                                    viewModel,
-                                    scaffoldState,
-                                    coroutineScope
-                                )*/
-                             /*   (screenState as JokesScreenState.Success).jokes.forEach() {
-                                    JokeCell(it, viewModel, scaffoldState,coroutineScope)
-                                    return@forEach
-                                }*/
-
                                 JokeCell((screenState as JokesScreenState.Success).jokes[1], viewModel, scaffoldState,coroutineScope)
                             }
                         else -> {}
@@ -144,7 +146,7 @@ fun Pantalla2(
                         )
                         is JokesScreenState.Error ->
                             ErrorBlock(
-                                message = (screenState as JokesScreenState.Error).message
+                                message = getErrorMessage(savedEmail.value.toString())
                             ) { viewModel.getJokes(category, lang, amount) }
                         is JokesScreenState.Success ->
                             Column(

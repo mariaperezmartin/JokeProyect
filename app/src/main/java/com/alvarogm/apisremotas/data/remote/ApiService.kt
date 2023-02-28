@@ -18,7 +18,7 @@ interface ApiService {
  @GET("joke/{category}")
  suspend fun getJoke(@Path("category") category: String, @Query("lang") lang: String,@Query("amount") amount: Int): JokeClass
 
- @GET("joke/{category}?lang=en")
+ @GET("joke/{category}?lang=es")
  suspend fun getOneJoke(@Path("category") category: String, @Query("amount") amount: Int): Joke
 
 

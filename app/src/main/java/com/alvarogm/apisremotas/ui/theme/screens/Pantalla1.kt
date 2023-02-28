@@ -30,6 +30,7 @@ fun Pantalla1(
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
     val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val numberRegex = """^[1-9]|10$""".toRegex()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,13 +46,23 @@ fun Pantalla1(
             Row {
                 TextField(
                     value = textValue,
-                    onValueChange = {
+            /*        onValueChange = {
                         if (it.isEmpty()) {
                             textValue = it
                         } else {
                             textValue = when (it.toDoubleOrNull()) {
                                 null -> textValue //old value
                                 else -> it   //new value
+                            }
+                        }
+                    },*/
+                    onValueChange = {
+                        if (it.isEmpty()) {
+                            textValue = it
+                        } else {
+                            val newValue = it.replace(Regex("[,.]"), "")
+                            if (numberRegex.matches(newValue)) {
+                                textValue = newValue
                             }
                         }
                     },
@@ -100,7 +111,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -137,7 +148,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -178,7 +189,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -227,7 +238,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -279,7 +290,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -328,7 +339,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -377,7 +388,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -413,7 +424,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(150.dp)
+                        .width(160.dp)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -447,7 +458,7 @@ fun Pantalla1(
                     ) {
                         Text(
                             when (savedEmail.value.toString()) {
-                                "Es" -> "OSCUROS"
+                                "Es" -> "JUEGO PALABRAS"
                                 "En" -> "PUN"
                                 "De" -> "WORTSPIEL"
                                 "Fr" -> "JEU DE MOTS"
