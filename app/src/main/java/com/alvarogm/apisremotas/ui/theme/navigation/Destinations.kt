@@ -11,9 +11,9 @@ sealed class Destinations(
     val title: String,
     val icon: ImageVector
 ) {
-    object Pantalla1: Destinations("pantalla1", "Pantalla 1", Icons.Filled.Home)
-    object Pantalla2: Destinations("pantalla2/?category={category}&lang={lang}&amount={amount}", "Pantalla 2", Icons.Filled.Favorite) {
+    object Pantalla1: Destinations("pantalla1", "", Icons.Filled.Home)
+    object Pantalla2: Destinations("pantalla2/?category={category}&lang={lang}&amount={amount}", "", Icons.Filled.Favorite) {
         fun createRoute(category: String,lang: String,amount: Int) = "pantalla2/?category=$category&lang=$lang&amount=$amount"
     }
-    object Pantalla3: Destinations("SettingsScreen", "Pantalla 3", Icons.Filled.Settings)
+    object Pantalla3: Destinations("SettingsScreen", "", Icons.Filled.Settings)
 }
