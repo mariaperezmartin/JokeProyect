@@ -268,7 +268,7 @@ fun DialogoAlerta(
             onDismissRequest = {
                 onDismiss()
             },
-            modifier = Modifier.height(280.dp),
+            modifier = Modifier.height(350.dp),
             title = {
                 Text(
                     when (savedLanguage.value.toString()) {
@@ -295,7 +295,7 @@ fun DialogoAlerta(
                     Spacer(modifier = Modifier.height(20.dp))
                     TextField(
                         value = emailBody.value,
-                        onValueChange = { emailBody.value = it },
+                        onValueChange = { if (emailBody.value.toString().length <= 190) emailBody.value = it },
                         /* keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),*/
                         label = {
                             Text(
@@ -310,7 +310,7 @@ fun DialogoAlerta(
                         modifier = Modifier
                             /* .width(270.dp)
                             .height(65.dp)*/
-                            .height(55.dp)
+                            .height(150.dp)
                             .neu(defaultPressedNetAttrs()),
                         shape = RoundedCornerShape(20.dp),
                         singleLine = false,

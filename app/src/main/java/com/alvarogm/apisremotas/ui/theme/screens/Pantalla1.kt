@@ -29,6 +29,8 @@ fun Pantalla1(
     val dataStore = StoreUserLanguage(mContext)
     val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
     val numberRegex = """^[1-9]|10$""".toRegex()
+    
+    val WIDTH = 170.dp
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -99,7 +101,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -134,7 +136,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -172,7 +174,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -205,7 +207,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -240,7 +242,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -273,7 +275,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -306,7 +308,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
@@ -339,7 +341,7 @@ fun Pantalla1(
                 Card(
                     modifier = Modifier
 
-                        .width(160.dp)
+                        .width(WIDTH)
                         .height(40.dp)
                         .neu(
                             lightShadowColor = AppColors.lightShadow(),
