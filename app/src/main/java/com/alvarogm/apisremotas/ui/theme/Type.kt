@@ -72,20 +72,6 @@ fun getTypography(isDarkTheme: Boolean): Typography {
 object AppTextStyle {
 
     @Composable
-    fun body1() = MaterialTheme.typography.body1
-
-    @Composable
-    fun body1Hint() = body1().also {
-        return it.copy(color = it.color.copy(alpha = ContentAlpha.medium))
-    }
-
-    @Composable
-    fun subtitle1() = MaterialTheme.typography.subtitle1;
-
-    @Composable
-    fun subtitle2() = MaterialTheme.typography.subtitle2;
-
-    @Composable
     fun button() = MaterialTheme.typography.button;
 
 }

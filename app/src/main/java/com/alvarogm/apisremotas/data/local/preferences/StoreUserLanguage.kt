@@ -14,19 +14,19 @@ class StoreUserLanguage(private val context: Context) {
     // to make sure there is only one instance
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("UserLanguage")
-        val USER_EMAIL_KEY = stringPreferencesKey("user_language")
+        val USER_LANGUAGE_KEY = stringPreferencesKey("user_language")
     }
 
     // to get the email
     val getLanguage: Flow<String?> = context.dataStore.data
         .map { preferences ->
-            preferences[USER_EMAIL_KEY] ?: ""
+            preferences[USER_LANGUAGE_KEY] ?: ""
         }
 
     // to save the email
     suspend fun saveLanguage(name: String) {
         context.dataStore.edit { preferences ->
-            preferences[USER_EMAIL_KEY] = name
+            preferences[USER_LANGUAGE_KEY] = name
         }
     }
 }

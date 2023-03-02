@@ -22,10 +22,8 @@ import com.gandiva.neumorphic.shape.*
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Pantalla1(
-    navController: NavHostController,
     navegarPantalla2: (String, String, Int) -> Unit
 ) {
-    val imageSize = 48.dp
     var textValue by remember { mutableStateOf("1") }
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
@@ -46,16 +44,6 @@ fun Pantalla1(
             Row {
                 TextField(
                     value = textValue,
-            /*        onValueChange = {
-                        if (it.isEmpty()) {
-                            textValue = it
-                        } else {
-                            textValue = when (it.toDoubleOrNull()) {
-                                null -> textValue //old value
-                                else -> it   //new value
-                            }
-                        }
-                    },*/
                     onValueChange = {
                         if (it.isEmpty()) {
                             textValue = it
@@ -122,8 +110,6 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
-                    // onClick = { navController.navigate(Destinations.Pantalla2.route) }
                     onClick = { navegarPantalla2("Any",savedEmail.value.toString(),textValue.toInt())
                      }
                 ) {
@@ -159,9 +145,6 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
-                    //onClick = { navController.navigate(Destinations.Pantalla2.route) }
-
                     onClick = {
                         navegarPantalla2("Programming",savedEmail.value.toString(), textValue.toInt())
                     }
@@ -200,29 +183,13 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                     onClick = { navegarPantalla2("Christmas", savedEmail.value.toString(),textValue.toInt()) }
                 ) {
-                    /* Image(
-                         painter = painterResource(id = R.drawable.ic_baseline_android_24),
-                         contentDescription = "Flat image 1",
-                         contentScale = ContentScale.Inside,
-                         colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-                     )*/
-                    //Icon es el que vale
-/*                Icon(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Destinations.Pantalla2.icon,
-                    contentDescription = Destinations.Pantalla2.title
-                    //tint = if(selected) Color.Blue else Color.Gray
-                )*/
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
-
                         Text(
                             when (savedEmail.value.toString()) {
                                 "Es" -> "NAVIDAD"
@@ -249,30 +216,13 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
-                    //onClick = { navController.navigate(Destinations.Pantalla2.route) }
                     onClick = { navegarPantalla2("Spooky", savedEmail.value.toString(),textValue.toInt()) }
                 ) {
-                    /* Image(
-                         painter = painterResource(id = R.drawable.ic_baseline_android_24),
-                         contentDescription = "Flat image 1",
-                         contentScale = ContentScale.Inside,
-                         colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-                     )*/
-                    //Icon es el que vale
-/*                Icon(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Destinations.Pantalla2.icon,
-                    contentDescription = Destinations.Pantalla2.title
-                    //tint = if(selected) Color.Blue else Color.Gray
-                )*/
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
-
                         Text(
                             when (savedEmail.value.toString()) {
                                 "Es" -> "ESPELUZNANTE"
@@ -301,29 +251,13 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                     onClick = { navegarPantalla2("MisBromas", savedEmail.value.toString(),textValue.toInt()) }
                 ) {
-                    /*          Image(
-                                  painter = painterResource(id = R.drawable.ic_baseline_android_24),
-                                  contentDescription = "Flat image 1",
-                                  contentScale = ContentScale.Inside,
-                                  colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-                              )*/
-                    //Icon es el que vale
-                    /*    Icon(
-                              modifier = Modifier.size(32.dp),
-                              imageVector = R.drawable.,
-                              contentDescription = Destinations.Pantalla2.title
-                              //tint = if(selected) Color.Blue else Color.Gray
-                          )*/
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
-
                         Text(
                             when (savedEmail.value.toString()) {
                                 "Es" -> "MIS BROMAS"
@@ -350,29 +284,13 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                     onClick = { navegarPantalla2("Miscellaneous",savedEmail.value.toString(), textValue.toInt()) }
                 ) {
-                    /* Image(
-                         painter = painterResource(id = R.drawable.ic_baseline_android_24),
-                         contentDescription = "Flat image 1",
-                         contentScale = ContentScale.Inside,
-                         colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-                     )*/
-                    //Icon es el que vale
-/*                Icon(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Destinations.Pantalla2.icon,
-                    contentDescription = Destinations.Pantalla2.title
-                    //tint = if(selected) Color.Blue else Color.Gray
-                )*/
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
-
                         Text(
                             when (savedEmail.value.toString()) {
                                 "Es" -> "Varios"
@@ -399,7 +317,6 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                     onClick = { navegarPantalla2("Dark",savedEmail.value.toString(), textValue.toInt()) }
                 ) {
                     Column(
@@ -407,8 +324,6 @@ fun Pantalla1(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
-
                         Text(
                             when (savedEmail.value.toString()) {
                                 "Es" -> "OSCUROS"
@@ -435,22 +350,8 @@ fun Pantalla1(
                         ),
                     elevation = 0.dp,
                     shape = RoundedCornerShape(10.dp),
-                    //     onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
                     onClick = { navegarPantalla2("Pun",savedEmail.value.toString(), textValue.toInt()) }
                 ) {
-                    /* Image(
-                         painter = painterResource(id = R.drawable.ic_baseline_android_24),
-                         contentDescription = "Flat image 1",
-                         contentScale = ContentScale.Inside,
-                         colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-                     )*/
-                    //Icon es el que vale
-/*                Icon(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Destinations.Pantalla2.icon,
-                    contentDescription = Destinations.Pantalla2.title
-                    //tint = if(selected) Color.Blue else Color.Gray
-                )*/
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -471,29 +372,6 @@ fun Pantalla1(
         }
 
     }
-
-    /* Column(
-         modifier = Modifier
-             .fillMaxSize()
-             .padding(16.dp),
-         verticalArrangement = Arrangement.SpaceAround,
-         horizontalAlignment = Alignment.CenterHorizontally
-     ) {
-         Text(
-             text = "PANTALLA 1",
-             style = TextStyle(color = Color.Black, fontSize = 42.sp, fontWeight = FontWeight.Black)
-         )
-
-         TextField(
-             value = textValue,
-             onValueChange = { textValue = it },
-             label = { Text("Introducir Texto") }
-         )
-
-         Button(onClick = { navegarPantalla2(textValue) }) {
-             Text("Enviar")
-         }
-     }*/
 }
 
 @Composable

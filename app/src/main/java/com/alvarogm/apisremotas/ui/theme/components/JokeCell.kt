@@ -1,31 +1,20 @@
 package com.alvarogm.apisremotas.ui.theme.components
 
-import android.util.Log
-import androidx.lifecycle.lifecycleScope
-import androidx.annotation.DrawableRes
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LifecycleCoroutineScope
 import com.alvarogm.apisremotas.R
 import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.data.remote.JokeClass
@@ -33,50 +22,29 @@ import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 import com.alvarogm.apisremotas.ui.theme.screens.defaultElevation
-import com.alvarogm.apisremotas.ui.theme.screens.defaultWidgetPadding
 import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
 import com.gandiva.neumorphic.shape.RoundedCorner
-import com.mathroda.snackie.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-
+import com.mathroda.snackie.BrightGreen
+import com.mathroda.snackie.SnackieError
+import com.mathroda.snackie.SnackieSuccess
+import com.mathroda.snackie.rememberSnackieState
 
 @Composable
 fun JokeCell(
     joke: JokeClass,
     viewModel: JokesViewModel,
-    scaffoldState: ScaffoldState,
-    coroutineScope: CoroutineScope
-
 ) {
     val success = rememberSnackieState()
     val error = rememberSnackieState()
-    val custom = rememberSnackieState()
-
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
     val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
 
-
     SnackieSuccess(state = success, containerColor = BrightGreen)
     SnackieError(state = error)
-/*    SnackieCustom(
-        state = custom,
-        position = SnackiePosition.Float,
-        duration = 3000L,
-        icon = Icons.Default.Star,
-        containerColor = Color.Gray,
-        contentColor = Color.White,
-        enterAnimation = fadeIn(),
-        exitAnimation = fadeOut(),
-        verticalPadding = 12.dp,
-        horizontalPadding = 12.dp
-    )*/
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,19 +83,7 @@ fun JokeCell(
                     Text(text = joke.joke)
                 }
             }
-        /*    SnackieError(state = error)
-            SnackieCustom(
-                state = custom,
-                position = SnackiePosition.Float,
-                duration = 3000L,
-                icon = Icons.Default.Star,
-                containerColor = Color.Gray,
-                contentColor = Color.White,
-                enterAnimation = fadeIn(),
-                exitAnimation = fadeOut(),
-                verticalPadding = 12.dp,
-                horizontalPadding = 12.dp
-            )*/
+
             Column(modifier = Modifier.align(Alignment.CenterVertically).padding(0.dp,0.dp,10.dp,0.dp)) {
                 Card(
                     modifier = Modifier
@@ -169,8 +125,6 @@ fun JokeCell(
                         }
                     }
 
-
-
                     IconButton(
                         modifier = Modifier.padding(0.dp),
 
@@ -195,12 +149,6 @@ fun JokeCell(
                                             "Fr" -> "Blague déjà enregistrée"
                                             else -> {"Successfully recorded joke"}
                                         }) }
-                                  /*  coroutineScope.launch {
-                                        scaffoldState.snackbarHostState.showSnackbar(
-                                            message = "Broma guardada correctamente",
-                                            duration = SnackbarDuration.Short
-                                        )
-                                    }*/
                                 }
 
                             } else {
@@ -230,95 +178,16 @@ fun JokeCell(
 
                         }
                     ) {
-                        /*  Icon(
-                              painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
-                              contentDescription = Destinations.Pantalla2.title,
-                          )*/
-                        //val coroutineScope = rememberCoroutineScope()
-
                         Icon(
                             modifier = Modifier.size(30.dp),
                             tint = iconTint,
                             painter = painterResource(id = R.drawable.ic_baseline_emoji_favorite),
                             contentDescription = Destinations.Pantalla2.title,
                         )
-
-
                     }
 
                 }
 
-            }
-        }
-
-    }
-}
-
-@Composable
-fun ImageButton(
-    modifier: Modifier,
-    @DrawableRes drawableResId: Int,
-    contentDescription: String = "",
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = modifier
-            .size(48.dp)
-            .neu(
-                lightShadowColor = AppColors.lightShadow(),
-                darkShadowColor = AppColors.darkShadow(),
-                shadowElevation = defaultElevation,
-                lightSource = LightSource.LEFT_TOP,
-                shape = Flat(Oval),
-            ),
-        elevation = 0.dp,
-        shape = RoundedCornerShape(24.dp),
-    ) {
-        Image(
-            modifier = Modifier.clickable(true, onClick = onClick),
-            painter = painterResource(id = drawableResId),
-            contentDescription = contentDescription,
-            contentScale = ContentScale.Inside,
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-        )
-    }
-}
-//SnackBar
-/*
-@Composable
-fun SnackbarScreen() {
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-        FloatingActionButton(
-            onClick = {
-                //Important part here
-                scope.launch {
-                    snackbarHostState.showSnackbar("Hello there")
-                }
-                //
-            },
-            content = { Icon(imageVector = Icons.Default.Add, contentDescription = "") }
-        )
-    SnackbarHost(hostState = snackbarHostState)
-}*/
-
-@Composable
-fun DisplaySnackbar() {
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
-    val coroutineScope: CoroutineScope = rememberCoroutineScope()
-
-    Scaffold(scaffoldState = scaffoldState) { padding ->
-        Column(modifier = Modifier.padding(4.dp)) {
-            Button(onClick = {
-                coroutineScope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = "Messahe snackbar",
-                        actionLabel = "undo",
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            }) {
-                Text(text = "Display Snack Bar")
             }
         }
 

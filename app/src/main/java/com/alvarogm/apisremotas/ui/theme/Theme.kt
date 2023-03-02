@@ -11,9 +11,7 @@ import com.alvarogm.apisremotas.ui.theme.AppColors.Purple200
 private val DarkColorPalette = darkColors(
     primary = Purple200,
     onPrimary = Color.White,
-
     secondary = AppColors.Purple500,
-
     background = AppColors.Dark.Background,
     onBackground = Color.White,
     surface = AppColors.Dark.Background,
@@ -23,9 +21,7 @@ private val DarkColorPalette = darkColors(
 private val LightColorPalette = lightColors(
     primary = Purple200,
     onPrimary = Color.Black,
-
     secondary = AppColors.Purple500,
-
     background = AppColors.Light.Background,
     onBackground = Color.Black,
     surface = AppColors.Light.Background,

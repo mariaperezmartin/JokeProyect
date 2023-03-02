@@ -20,22 +20,13 @@ import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations.*
 import com.alvarogm.apisremotas.ui.theme.screens.*
-import com.mathroda.snackie.SnackieState
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun NavigationHost(
-
-
     navController: NavHostController,
-    darkMode: Boolean,
     viewModel: JokesViewModel,
-    scaffoldState: ScaffoldState,
-    coroutineScope: CoroutineScope
-
 ) {
-    var isDarkTheme by remember { mutableStateOf(darkMode) }
-    isDarkTheme = darkMode
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
     val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
@@ -45,7 +36,7 @@ fun NavigationHost(
         composable(Pantalla1.route) {
             Pantalla1(
                 navegarPantalla2 = { newText,newTextLang,newText2 ->navController.navigate(Pantalla2.createRoute(newText,newTextLang,newText2)) },
-            navController = navController
+
             )
         }
 
@@ -63,13 +54,10 @@ fun NavigationHost(
             requireNotNull(category)
             requireNotNull(amount)
             requireNotNull(lang)
-            Pantalla2(category,lang,amount, darkMode, viewModel,scaffoldState,coroutineScope)
-            //ShowJokes()
+            Pantalla2(category,lang,amount, viewModel)
         }
 
         composable(Pantalla3.route) {
-            // Pantalla3()
-            //SettingsScreen()
             Column (
                 modifier = Modifier
                     .padding(horizontal = 23.dp)
@@ -78,10 +66,8 @@ fun NavigationHost(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly,
             ){
-                //PressedButton(darkMode) { }
                 TitleApp()
-                //LanguageSelectionSpinner(context = LocalContext.current)
-                PressedSppiner(LocalContext.current, viewModel)
+                PressedSppiner(LocalContext.current)
                 PressedButtonError()
                 PressedButtonVersion()
             }

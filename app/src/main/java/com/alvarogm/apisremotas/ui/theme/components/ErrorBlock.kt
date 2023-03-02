@@ -30,11 +30,6 @@ fun ErrorBlock(message: String, onRetryClick: () -> Unit) {
     val dataStore = StoreUserLanguage(mContext)
     val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
 
-
-
-
-
-
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(text = message, style = TextStyle(color = Color.Red, textAlign = TextAlign.Center))
         Card(
@@ -51,8 +46,6 @@ fun ErrorBlock(message: String, onRetryClick: () -> Unit) {
                 ),
             elevation = 0.dp,
             shape = RoundedCornerShape(10.dp),
-            //onClick = { mContext.startActivity(Intent(mContext,ShowJokesActivity::class.java)) }
-            // onClick = { navController.navigate(Destinations.Pantalla2.route) }
             onClick = {onRetryClick()}
         ) {
             Column(
@@ -72,18 +65,5 @@ fun ErrorBlock(message: String, onRetryClick: () -> Unit) {
                 )
             }
         }
-
-
-/*        Button(onClick = { onRetryClick() }) {
-            Text(
-                when (savedEmail.value.toString()) {
-                    "Es" -> "Reintentar"
-                    "En" -> "Retry"
-                    "De" -> "Wiederholung"
-                    "Fr" -> "Réessayer"
-                    else -> {"Retry"}
-                }
-            )
-        }*/
     }
 }

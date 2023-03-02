@@ -5,7 +5,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,6 +23,9 @@ import com.gandiva.neumorphic.neu
 import com.gandiva.neumorphic.shape.Flat
 import com.gandiva.neumorphic.shape.Oval
 import com.gandiva.neumorphic.shape.RoundedCorner
+import com.mathroda.snackie.BrightGreen
+import com.mathroda.snackie.SnackieSuccess
+import com.mathroda.snackie.rememberSnackieState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -32,13 +34,12 @@ import kotlinx.coroutines.launch
 fun JokeCellLocal(
     joke: Jokes,
     viewModel: JokesViewModel,
-    scaffoldState: ScaffoldState,
-    coroutineScope: CoroutineScope
 ) {
+    val success = rememberSnackieState()
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
     val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
-
+    SnackieSuccess(state = success, containerColor = BrightGreen)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,20 +63,6 @@ fun JokeCellLocal(
                 Text(text = joke.joke)
             }
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-/*                ImageButton(
-                    modifier = Modifier.padding(defaultWidgetPadding),
-                    drawableResId = R.drawable.baseline_home_24,
-                    contentDescription = "Like",
-                ) {
-                    viewModel.saveJoke(joke.joke)
-                }
-                Icon(
-                    modifier = Modifier.size(32.dp),
-                    painter = painterResource(id = R.drawable.baseline_home_24),
-                    contentDescription = Destinations.Pantalla2.title,
-                    //tint = if(selected) Color.Blue else Color.Gray
-
-                )*/
                 Card(
                     modifier = Modifier
                         .size(48.dp)
@@ -93,7 +80,15 @@ fun JokeCellLocal(
                     IconButton(modifier = Modifier.padding(defaultWidgetPadding),
                         onClick = {
                             viewModel.deleteJoke(joke)
-                            coroutineScope.launch{
+                            run { success.addMessage(
+                                when (savedEmail.value.toString()) {
+                                    "Es" -> "Broma borrada con éxito"
+                                    "En" -> "Delete joke successfully"
+                                    "De" -> "Witz erfolgreich löschen"
+                                    "Fr" -> "Blague supprimée avec succès"
+                                    else -> {"Delete joke successfully"}
+                                }) }
+/*                            coroutineScope.launch{
                                 scaffoldState.snackbarHostState.showSnackbar(
                                     message = when (savedEmail.value.toString()) {
                                         "Es" -> "Broma borrada con éxito"
@@ -110,7 +105,7 @@ fun JokeCellLocal(
                                         else -> {"Thanks!"}
                                     },
                                     duration = SnackbarDuration.Short)
-                            }
+                            }*/
                         }
                     ) {
                         Icon(
@@ -123,34 +118,3 @@ fun JokeCellLocal(
         }
     }
 }
-
-/*
-@Composable
-fun ImageButton(
-    modifier: Modifier,
-    @DrawableRes drawableResId: Int,
-    contentDescription: String = "",
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = modifier
-            .size(48.dp)
-            .neu(
-                lightShadowColor = AppColors.lightShadow(),
-                darkShadowColor = AppColors.darkShadow(),
-                shadowElevation = defaultElevation,
-                lightSource = LightSource.LEFT_TOP,
-                shape = Flat(Oval),
-            ),
-        elevation = 0.dp,
-        shape = RoundedCornerShape(24.dp),
-    ) {
-        Image(
-            modifier = Modifier.clickable(true, onClick = onClick),
-            painter = painterResource(id = drawableResId),
-            contentDescription = contentDescription,
-            contentScale = ContentScale.Inside,
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-        )
-    }
-}*/

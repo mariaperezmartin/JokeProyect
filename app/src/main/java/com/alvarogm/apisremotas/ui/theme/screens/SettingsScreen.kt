@@ -31,118 +31,15 @@ import com.gandiva.neumorphic.LightSource
 import com.gandiva.neumorphic.neu
 import kotlinx.coroutines.launch
 
-
-/*
-
-@OptIn(ExperimentalLifecycleComposeApi::class)
-@Composable
-fun SettingsScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-    }
-}
-
-
-@Preview(showBackground = true,
-    name ="prueba 1",
-    widthDp = 400,
-    heightDp = 100,)
-@Composable
-fun PressedButton() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween,
-        //horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Appearance",
-            fontSize = 25.sp,
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
-        Button(
-            onClick = { }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(defaultWidgetPadding)
-                .neu(defaultPressedNetAttrs()),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.surface,
-            ),
-            shape = RoundedCornerShape(12.dp),
-            elevation = null
-
-        ) {
-            Text(text = "Button", style = AppTextStyle.button())
-        }
-    }
-}
-
-//Botón que controla apariencia
-@Composable
-fun TitleWithThemeToggle(isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = defaultWidgetPadding),
-            text = "Jokes",
-            style = AppTextStyle.body1(), maxLines = 1
-        )
-        ImageButton(
-            modifier = Modifier.padding(defaultWidgetPadding),
-            drawableResId = if (isDarkTheme) R.drawable.ic_baseline_light_mode
-            else R.drawable.ic_baseline_dark_mode_24,
-            contentDescription = "Toggle theme",
-            onClick = onThemeToggle
-        )
-    }
-}
-
-@Composable
-fun ImageButton(
-    modifier: Modifier,
-    @DrawableRes drawableResId: Int,
-    contentDescription: String = "",
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = modifier
-            .size(48.dp)
-            .neu(
-                lightShadowColor = AppColors.lightShadow(),
-                darkShadowColor = AppColors.darkShadow(),
-                shadowElevation = defaultElevation,
-                lightSource = LightSource.LEFT_TOP,
-                shape = Flat(Oval),
-            ),
-        elevation = 0.dp,
-        shape = RoundedCornerShape(24.dp),
-    ) {
-        Image(
-            modifier = Modifier.clickable(true, onClick = onClick),
-            painter = painterResource(id = drawableResId),
-            contentDescription = contentDescription,
-            contentScale = ContentScale.Inside,
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
-        )
-    }
-}*/
 @Composable
 fun SettingsScreen() {
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
-    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val savedLanguage = dataStore.getLanguage.collectAsState(initial = "")
 
     Column() {
         Text(
-
-
-            if (savedEmail.value == "Es") {
+            if (savedLanguage.value == "Es") {
                 "Ajustes"
             } else {
                 "Settings"
@@ -158,14 +55,14 @@ fun SettingsScreen() {
 fun TitleApp() {
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
-    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val savedLanguage = dataStore.getLanguage.collectAsState(initial = "")
 
     Row(
         modifier = Modifier.padding(vertical = 5.dp),
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            when (savedEmail.value.toString()) {
+            when (savedLanguage.value.toString()) {
                 "Es" -> "APP DE CHISTES"
                 "En" -> "JOKES APP"
                 "De" -> "WITZE-APP"
@@ -179,9 +76,8 @@ fun TitleApp() {
 
 //Spinner de selección lenguaje
 @Composable
-fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
+fun PressedSppiner(context: Context) {
     var expanded by remember { mutableStateOf(false) }
-    var s by remember { mutableStateOf(viewModel.getMyPreference()) }
     val items = listOf("En", "De", "Es", "Fr")
     val disabledValue = "En"
     var selectedIndex by remember { mutableStateOf(0) }
@@ -190,14 +86,8 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
     // datastore Email
     val dataStore = StoreUserLanguage(context)
     // get saved email
-    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val savedLanguage = dataStore.getLanguage.collectAsState(initial = "")
 
-    var language by remember { mutableStateOf("") }
-
-    val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-    val selectedLanguage = sharedPreferences.getString("selectedLanguage", "en")
-    // Definimos la variable que guardará el idioma seleccionado
-    var languageSelection by remember { mutableStateOf(selectedLanguage) }
 
     Column(
         modifier = Modifier
@@ -205,7 +95,7 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
             .height(100.dp),
     ) {
         Text(
-            when (savedEmail.value.toString()) {
+            when (savedLanguage.value.toString()) {
                 "Es" -> "Lenguaje"
                 "En" -> "Language"
                 "De" -> "Sprache"
@@ -215,16 +105,10 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
             fontSize = 25.sp,
             modifier = Modifier.padding(vertical = 7.dp)
         )
-        /* Text(
-             text = "pruebaaaa"+savedEmail.value!!,
-             color = Color.Black,
-             fontSize = 18.sp
-         )*/
         //Empieza Spinner
         Card(
             modifier = Modifier
                 .fillMaxSize()
-                //.padding(defaultWidgetPadding)
                 .neu(
                     lightShadowColor = AppColors.lightShadow(),
                     darkShadowColor = AppColors.darkShadow(),
@@ -235,15 +119,13 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
             shape = RoundedCornerShape(9.dp),
         ) {
             Text(
-                //items[selectedIndex],
-                savedEmail.value.toString(),
+                savedLanguage.value.toString(),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxSize().padding(top=8.dp)
-                    //.padding(horizontal = 20.dp, 7.dp)
                     .clickable(onClick = { expanded = true })
             )
-            androidx.compose.material.DropdownMenu(
+            DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.padding(defaultWidgetPadding),
@@ -252,11 +134,6 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
                     DropdownMenuItem(onClick = {
                         selectedIndex = index
                         expanded = false
-                        /*                 with(sharedPreferences.edit()) {
-                                             putString("selectedLanguage", s)
-                                             apply()
-                                         }*/
-
                         scope.launch {
                             dataStore.saveLanguage(s)
                         }
@@ -271,15 +148,7 @@ fun PressedSppiner(context: Context, viewModel: JokesViewModel) {
                 }
             }
         }
-
-
     }
-    LaunchedEffect(viewModel) {
-        if (!s.equals("")) {
-            viewModel.setMyPreference(s)
-        }
-    }
-
 }
 
 
@@ -292,13 +161,13 @@ fun PressedButtonError() {
     }
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
-    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val savedLanguage = dataStore.getLanguage.collectAsState(initial = "")
     Column(
         modifier = Modifier
             .height(120.dp),
     ) {
         Text(
-            when (savedEmail.value.toString()) {
+            when (savedLanguage.value.toString()) {
                 "Es" -> "Errores"
                 "En" -> "Errors"
                 "De" -> "Fehler"
@@ -320,7 +189,7 @@ fun PressedButtonError() {
             shape = RoundedCornerShape(9.dp)
         ) {
             Text(
-                when (savedEmail.value.toString()) {
+                when (savedLanguage.value.toString()) {
                     "Es" -> "Problemas"
                     "En" -> "Problems"
                     "De" -> "Probleme"
@@ -341,14 +210,14 @@ fun PressedButtonVersion() {
 
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
-    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val savedLanguage = dataStore.getLanguage.collectAsState(initial = "")
 
     Column(
         modifier = Modifier
             .height(150.dp),
     ) {
         Text(
-            when (savedEmail.value.toString()) {
+            when (savedLanguage.value.toString()) {
                 "Es" -> "Versión"
                 "En" -> "Version"
                 "De" -> "Ausführung"
@@ -391,7 +260,7 @@ fun DialogoAlerta(
 
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
-    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val savedLanguage = dataStore.getLanguage.collectAsState(initial = "")
 
     val ctx = LocalContext.current
     if (dialogoVisible) {
@@ -402,7 +271,7 @@ fun DialogoAlerta(
             modifier = Modifier.height(280.dp),
             title = {
                 Text(
-                    when (savedEmail.value.toString()) {
+                    when (savedLanguage.value.toString()) {
                         "Es" -> "Problemas"
                         "En" -> "Problems"
                         "De" -> "Probleme"
@@ -416,7 +285,7 @@ fun DialogoAlerta(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        when (savedEmail.value.toString()) {
+                        when (savedLanguage.value.toString()) {
                             "Es" -> "Escribe el problema y lo resolveremos"
                             "En" -> "Write down the problem and we will solve it"
                             "De" -> "Schreiben Sie das Problem auf und wir werden es lösen"
@@ -430,7 +299,7 @@ fun DialogoAlerta(
                         /* keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),*/
                         label = {
                             Text(
-                            when (savedEmail.value.toString()) {
+                            when (savedLanguage.value.toString()) {
                                 "Es" -> "Introduzca el mensaje"
                                 "En" -> "Enter email body"
                                 "De" -> "E-Mail-Text eingeben"
@@ -465,7 +334,7 @@ fun DialogoAlerta(
                             ), shape = RoundedCornerShape(9.dp)
                         ) {
                             Text(
-                                when (savedEmail.value.toString()) {
+                                when (savedLanguage.value.toString()) {
                                     "Es" -> "Cancelar"
                                     "En" -> "Cancel"
                                     "De" -> "Stornieren"
@@ -509,7 +378,7 @@ fun DialogoAlerta(
                         ) {
                             // on the below line creating a text for our button.
                             Text(
-                                when (savedEmail.value.toString()) {
+                                when (savedLanguage.value.toString()) {
                                     "Es" -> "Enviar"
                                     "En" -> "Send"
                                     "De" -> "Schicken"
@@ -537,7 +406,7 @@ fun DialogoAlertaVersion(
 
     val mContext = LocalContext.current
     val dataStore = StoreUserLanguage(mContext)
-    val savedEmail = dataStore.getLanguage.collectAsState(initial = "")
+    val savedLanguage = dataStore.getLanguage.collectAsState(initial = "")
     if (dialogoVisible) {
         AlertDialog(
             onDismissRequest = {
@@ -545,7 +414,7 @@ fun DialogoAlertaVersion(
             },
             title = {
                 Text(
-                    when (savedEmail.value.toString()) {
+                    when (savedLanguage.value.toString()) {
                         "Es" -> "Trabajo realizado por:"
                         "En" -> "Work done by:"
                         "De" -> "Arbeit erledigt bis:"
@@ -566,7 +435,7 @@ fun DialogoAlertaVersion(
                             .fillMaxWidth()
                     ) {
                         Text(
-                            when (savedEmail.value.toString()) {
+                            when (savedLanguage.value.toString()) {
                                 "Es" -> "¡ Genial !"
                                 "En" -> "Great !"
                                 "De" -> "Großartig !"

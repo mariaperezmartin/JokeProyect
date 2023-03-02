@@ -17,7 +17,7 @@ import com.alvarogm.apisremotas.data.remote.RetrofitBuilder
 import com.alvarogm.apisremotas.presentation.JokesViewModel
 import com.alvarogm.apisremotas.ui.theme.ApisRemotasTheme
 import com.alvarogm.apisremotas.data.local.database.JokesDatasource
-import com.alvarogm.apisremotas.data.local.preferences.SettingsDatasource
+//import com.alvarogm.apisremotas.data.local.preferences.SettingsDatasource
 import com.alvarogm.apisremotas.ui.theme.AppColors
 import com.alvarogm.apisremotas.ui.theme.navigation.Destinations
 /*import com.alvarogm.apisremotas.ui.theme.screens.ImageButton*/
@@ -33,24 +33,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val dbDatasource = JokesDatasource(applicationContext)
-
-        val settingsDatasource = SettingsDatasource(applicationContext)
-        val viewModel = JokesViewModel(apiDatasource, dbDatasource, settingsDatasource)
+        val viewModel = JokesViewModel(apiDatasource, dbDatasource)
         setContent {
             var isDarkTheme by remember {
                 mutableStateOf(false)
             }
             ApisRemotasTheme(isDarkTheme = isDarkTheme) {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
 
                     MainScreen(
-
-                        isDarkTheme,
                         viewModel = viewModel
-                    ) { isDarkTheme = !isDarkTheme }
+                    )
                     Column(horizontalAlignment = Alignment.End) {
                         TitleWithThemeToggle(
                             title = getString(R.string.app_name),
@@ -68,23 +63,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TitleWithThemeToggle(title: String, isDarkTheme: Boolean, onThemeToggle: () -> Unit) {
     Row(
-        //verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(15.dp)
     ) {
-/*        Text(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = defaultWidgetPadding),
-            text = title,
-            style = AppTextStyle.body1(), maxLines = 1
-        )*/
-/*        ImageButton(
-            modifier = Modifier.size(50.dp),
-            drawableResId = if (isDarkTheme) R.drawable.ic_baseline_light_mode
-            else R.drawable.baseline_home_24,
-            contentDescription = "Toggle theme",
-            onClick = onThemeToggle
-        )*/
         Card(
             modifier = Modifier
                 .size(40.dp)

@@ -1,28 +1,21 @@
 package com.alvarogm.apisremotas.presentation;
 
-import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
 import com.alvarogm.apisremotas.data.local.database.Jokes
 import com.alvarogm.apisremotas.data.local.database.JokesDatasource
-import com.alvarogm.apisremotas.data.local.preferences.SettingsDatasource
-import com.alvarogm.apisremotas.data.local.preferences.StoreUserLanguage
-import com.alvarogm.apisremotas.data.remote.JokeClass
+import com.alvarogm.apisremotas.data.remote.JokeRemoteDatasource
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class JokesViewModel(
     private val jokesRemoteDatasource: JokeRemoteDatasource,
     private val jokesDatasource: JokesDatasource,
-    private val settingsDatasource: SettingsDatasource
 ) : ViewModel() {
-
-
-
     private val _uiState: MutableStateFlow<JokesScreenState> =
         MutableStateFlow(JokesScreenState.Loading)
     val uiState: StateFlow<JokesScreenState> = _uiState.asStateFlow()
@@ -37,20 +30,10 @@ class JokesViewModel(
         )
     }
 
-    fun getMyPreference() {
-       viewModelScope.launch(handler) {
-           settingsDatasource.getLanguage()
-        }
-    }
-
-    suspend fun setMyPreference(s: Unit) {
-        settingsDatasource.setLanguage(s)
-    }
     fun getJokesOrOneJoke(category: String,lang: String, jokeAmount: Int) {
         if (jokeAmount > 1) {
             getJokes(category, lang, jokeAmount)
         } else {
-            /* getOneJoke(category, jokeAmount)*/
             getJokes(category, lang, 2)
         }
     }
@@ -61,60 +44,10 @@ class JokesViewModel(
         return jokesList.any { it.joke == jokeName }
     }
 
-
-
-
-
     fun getJokes(category: String,lang: String, jokeAmount: Int) {
         viewModelScope.launch(handler) {
-            /*_uiState.value = JokesScreenState.Loading*/
             val jokes = jokesRemoteDatasource.getJoke(category,lang, jokeAmount)
-            Log.d("JokesIsLocal", jokes.toString())
-            /*val localJoke = jokesDatasource.getJokes().collect(){
-                Log.d("JokesIsLocal",it.toString())
-            }*/
-
-            /*jokesDatasource.getJokes().collect(){
-                for (joke in it){
-                    for (jokeRemote in jokes.jokes){
-                        if (joke.equals(jokeRemote)){
-                            jokeRemote.isLocal = true
-                        }
-                    }
-                }
-            }*/
-            Log.d("JokesIsLocal", jokes.toString())
-            /*jokesDatasource.getJokes().collect {
-                val filteredList = it.filter { item -> jokes.id == item.id }
-                if(filteredList.isNotEmpty()) {
-
-                }
-            }*/
-            /*jokesDatasource.getJokes().collect {
-                val filteredList = it.filter { item -> jokes.id == item.id }
-                if(filteredList.isNotEmpty()) {
-
-                }
-            }*/
-
-            /*jokesDatasource.getJokes().collect {
-                val filteredList = it.map { item -> JokeClass(
-
-                ) }
-                    if(filteredList.isNotEmpty()) {
-
-                }
-                }*/
-            //jokesLocal
             _uiState.value = JokesScreenState.Success(jokes.jokes)
-        }
-    }
-
-    fun getOneJoke(category: String, jokeAmount: Int) {
-        viewModelScope.launch(handler) {
-            /*_uiState.value = JokesScreenState.Loading*/
-            val oneJoke = jokesRemoteDatasource.getOneJoke(category, jokeAmount)
-            _uiState.value = JokesScreenState.SuccessOne(oneJoke)
         }
     }
 
