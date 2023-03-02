@@ -84,7 +84,7 @@ fun Pantalla2(
             contentAlignment = Alignment.Center, modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .height(550.dp)
+                .height(700.dp)
         ) {
             if (category == "MisBromas") {
 
